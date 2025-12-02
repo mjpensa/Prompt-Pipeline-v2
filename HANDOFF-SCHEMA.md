@@ -125,11 +125,11 @@ Consumed by: `Prompt 3 - Slide Presentation Outline`
 [Carried forward from Stage 1]
 
 ## Findings Carried Forward
-| F-ID | Finding | Q-Ref | Confidence | Used in Summary? |
-|------|---------|-------|------------|------------------|
-| F1 | [Title] | Q1 | High | ✅ |
-| F2 | [Title] | Q1.2 | Medium | ✅ |
-| F3 | [Title] | Q2 | Low | ⚠️ (flagged) |
+| F-ID | Finding | Q-Ref | Confidence | Used in Summary? | Summary Location |
+|------|---------|-------|------------|------------------|------------------|
+| F1 | [Title] | Q1 | High | ✅ | [Section/paragraph] |
+| F2 | [Title] | Q1.2 | Medium | ✅ | [Section/paragraph] |
+| F3 | [Title] | Q2 | Low | ⚠️ (flagged) | [Section/paragraph] |
 
 ## Branded Concepts
 | Concept | Source Evidence | Definition |
@@ -140,20 +140,25 @@ Consumed by: `Prompt 3 - Slide Presentation Outline`
 | Element | Content |
 |---------|---------|
 | Core Thesis | [One sentence] |
-| Opening Hook | [Strategy used + content] |
-| Narrative Arc | [Pattern used: Transformation/Collision/etc.] |
-| Closing | [Strategy used + content] |
+| Opening Strategy | [Strategy name]: [First line of opening] |
+| Narrative Arc | [Pattern used: Transformation/Collision/Hidden/Countdown/Mosaic] |
 | Key Tension | [Primary conflict or "so what"] |
+| Closing Strategy | [Strategy name]: [Key closing statement] |
 
 ## Citation Abbreviation Table
-| Abbreviation | Full Name | Tier |
-|--------------|-----------|------|
-| [Abbrev] | [Full source name] | [1-4] |
+| Abbreviation | Full Name | Tier | First Used |
+|--------------|-----------|------|------------|
+| [Abbrev] | [Full source name] | [1-4] | [Section] |
 
 ## Stakeholder Implications
-| Stakeholder | Key Implication | Urgency |
-|-------------|-----------------|---------|
-| [Group] | [Implication] | High/Med/Low |
+| Stakeholder | Key Implication | Urgency | Action Required |
+|-------------|-----------------|---------|-----------------|
+| [Group] | [Implication] | High/Med/Low | [What they should do] |
+
+## Statistics Highlighted
+| Statistic | Value | Context | Visual Potential |
+|-----------|-------|---------|------------------|
+| [Description] | [Number] | [Why it matters] | [Chart type suggestion] |
 
 ## Confidence Inheritance
 | Claim Category | Confidence | Notes |
@@ -168,10 +173,18 @@ Consumed by: `Prompt 3 - Slide Presentation Outline`
 ## Gaps Acknowledged
 [From Stage 1, noting which were addressed vs. remain open]
 
+## Complexity Indicator for Stage 3
+| Factor | Assessment |
+|--------|------------|
+| Distinct findings synthesized | [#] |
+| Stakeholder groups addressed | [#] |
+| Geographic scope | Single / Multi-jurisdiction |
+| Recommended presentation complexity | Low / Medium / High |
+| Suggested slide count | [8-10 / 10-12 / 12-15] |
+
 ## Flags for Next Stage
 - [ ] [Presentation-relevant notes, e.g., "Strong visual opportunity: market share data"]
 - [ ] [Warnings, e.g., "Closing requires callback to opening statistic"]
-- [ ] [Complexity indicator for slide count targeting]
 
 ## Full Executive Summary
 [Complete Stage 2 deliverable — summary + process notes]
@@ -329,9 +342,9 @@ Consumed by: `Prompt 5 - Slide Generation (React Artifact)`
 ## Layout Template Assignments
 | Slide # | Template | Rationale (CoT) |
 |---------|----------|-----------------|
-| 1 | title-centered | Opening slide, single focus |
-| 2 | content-left-visual-right | Data point with chart |
-| 3 | full-width-chart | Complex data, needs space |
+| 1 | title_centered | Opening slide, single focus |
+| 2 | content_visual_split | Data point with chart |
+| 3 | chart_focus | Complex data, needs space |
 
 ## Chart Specifications
 | Slide # | Chart Type | Data Series | Labels | Colors |
