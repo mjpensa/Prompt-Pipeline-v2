@@ -6,14 +6,14 @@
 
 | Field | Value |
 |-------|-------|
-| **Stage** | 2 of 3 |
+| **Stage** | 2 of 5 |
 | **Role** | Executive Summary Synthesis |
 | **Input** | STAGE_1_HANDOFF package (from Prompt 1) OR standalone research documents |
 | **Output** | Executive Summary + STAGE_2_HANDOFF package |
 | **Previous Stage** | Prompt 1 - Deep Research |
 | **Next Stage** | Prompt 3 - Slide Presentation Outline |
 
-**Pipeline Context**: This prompt is Stage 2 of a 3-stage pipeline. When receiving a STAGE_1_HANDOFF package, use the structured metadata (Q-IDs, confidence levels, source tiers, conflicts, gaps) to inform the synthesis. Output both the executive summary AND the STAGE_2_HANDOFF package for Stage 3.
+**Pipeline Context**: This prompt is Stage 2 of a 5-stage pipeline. When receiving a STAGE_1_HANDOFF package, use the structured metadata (Q-IDs, confidence levels, source tiers, conflicts, gaps) to inform the synthesis. Output both the executive summary AND the STAGE_2_HANDOFF package for Stage 3.
 
 **Standalone Use**: This prompt can also be used independently with any research documents. If not part of a pipeline, the handoff package section can be omitted.
 

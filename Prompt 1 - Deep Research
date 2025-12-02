@@ -6,13 +6,13 @@
 
 | Field | Value |
 |-------|-------|
-| **Stage** | 1 of 3 |
+| **Stage** | 1 of 5 |
 | **Role** | Deep Research |
 | **Input** | Research Brief (from user or pipeline orchestrator) |
 | **Output** | Full research document + STAGE_1_HANDOFF package |
 | **Next Stage** | Prompt 2 - Executive Summary Creation |
 
-**Pipeline Context**: This prompt is Stage 1 of a 3-stage pipeline. When executed as part of the pipeline, output both the full research deliverable AND the STAGE_1_HANDOFF package (see end of this prompt). The handoff package enables Stage 2 to consume this research effectively.
+**Pipeline Context**: This prompt is Stage 1 of a 5-stage pipeline. When executed as part of the pipeline, output both the full research deliverable AND the STAGE_1_HANDOFF package (see end of this prompt). The handoff package enables Stage 2 to consume this research effectively.
 
 **Standalone Use**: This prompt can also be used independently. If not part of a pipeline execution, the handoff package section can be omitted.
 

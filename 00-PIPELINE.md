@@ -1,21 +1,21 @@
 # Financial Services Research Pipeline
-## Prompt Orchestrator v1.0
+## Prompt Orchestrator v2.0
 
 ---
 
 # PIPELINE OVERVIEW
 
-This pipeline transforms a research topic into three polished deliverables through sequential prompt execution. No code required — Claude executes each stage and maintains state between stages.
+This pipeline transforms a research topic into five polished deliverables through sequential prompt execution. No code required — Claude executes each stage and maintains state between stages.
 
 ```
-┌─────────────┐    ┌─────────────┐    ┌─────────────┐
-│   STAGE 1   │───▶│   STAGE 2   │───▶│   STAGE 3   │
-│   Research  │    │   Summary   │    │ Presentation│
-└─────────────┘    └─────────────┘    └─────────────┘
-      │                  │                  │
-      ▼                  ▼                  ▼
- Raw Research      Executive         Slide Deck
- (15-30 pages)   Summary (2-4p)    Outline (8-15)
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│   STAGE 1   │───▶│   STAGE 2   │───▶│   STAGE 3   │───▶│   STAGE 4   │───▶│   STAGE 5   │
+│   Research  │    │   Summary   │    │   Outline   │    │  JSON Spec  │    │   Slides    │
+└─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘
+      │                  │                  │                  │                  │
+      ▼                  ▼                  ▼                  ▼                  ▼
+ Raw Research      Executive         Presentation       Slide Design        Final Slide
+ (15-30 pages)   Summary (2-4p)    Outline (8-15)     JSON Structure      Presentation
 ```
 
 ---
@@ -27,7 +27,9 @@ This pipeline transforms a research topic into three polished deliverables throu
 | `Start pipeline: [RESEARCH_BRIEF]` | Begin Stage 1 with your research topic |
 | `Proceed to P2` | Execute Stage 2 using Stage 1 output |
 | `Proceed to P3` | Execute Stage 3 using Stage 2 output |
-| `Show deliverables` | Display all three final artifacts |
+| `Proceed to P4` | Execute Stage 4 using Stage 3 output |
+| `Proceed to P5` | Execute Stage 5 using Stage 4 output |
+| `Show deliverables` | Display all five final artifacts |
 | `Show [stage] output` | Display specific stage output |
 
 ---
@@ -63,7 +65,9 @@ When executing a stage:
 | `HANDOFF-SCHEMA.md` | Shared format definitions for stage handoffs |
 | `Prompt 1 - Deep Research` | Stage 1: Comprehensive research |
 | `Prompt 2 - Executive Summary Creation` | Stage 2: Synthesis into executive summary |
-| `Prompt 3 - Slide Presentation Outline` | Stage 3: Transform into presentation |
+| `Prompt 3 - Slide Presentation Outline` | Stage 3: Transform into presentation outline |
+| `Prompt 4 - Slide Design Specification` | Stage 4: Generate JSON slide specifications |
+| `Prompt 5 - Slide Generation` | Stage 5: Create final slide presentation |
 
 ---
 
@@ -124,8 +128,62 @@ When executing a stage:
 - Appendix slides with triggers
 - Headline sequence
 - Process Notes
+- STAGE_3_HANDOFF package
 
-**Final Deliverable**: Complete presentation outline ready for slide creation
+**Key Artifacts Passed Forward**:
+- Complete slide specifications (titles, content, visuals)
+- Governing thought
+- Framework selection
+- Speaker notes
+
+---
+
+## Stage 4: Slide Design Specification
+
+**File**: `Prompt 4 - Slide Design Specification`
+
+**Input**: STAGE_3_HANDOFF package (presentation outline + metadata)
+
+**Process**: Multi-pass design specification (Passes 1-7) with Chain of Thought reasoning, Chain of Density optimization, and JSON generation
+
+**Output**:
+- Complete JSON specification for all slides
+- Design system definition (colors, typography, layouts)
+- Visual element specifications
+- STAGE_4_HANDOFF package
+
+**Key Artifacts Passed Forward**:
+- Machine-readable JSON slide specification
+- Layout templates per slide
+- Chart/visual specifications
+- Platform-agnostic design tokens
+
+**Advanced Techniques**:
+- **Chain of Thought (CoT)**: Explicit reasoning for visual hierarchy, chart selection, layout decisions
+- **Chain of Density (CoD)**: 3-pass content compression (verbose → standard → dense)
+- **Multi-pass validation**: Schema compliance, consistency checks
+
+---
+
+## Stage 5: Slide Generation
+
+**File**: `Prompt 5 - Slide Generation`
+
+**Input**: STAGE_4_HANDOFF package (JSON specification + metadata)
+
+**Process**: Transform JSON into final slide content with platform-specific guidance
+
+**Output**:
+- Final slide presentation content
+- Platform-specific instructions (PowerPoint/Keynote/Google Slides)
+- FINAL_DELIVERABLES package (compiles all 5 stages)
+
+**Final Deliverables**:
+1. Raw Research Document
+2. Executive Summary
+3. Presentation Outline
+4. JSON Slide Specification
+5. Final Slide Presentation
 
 ---
 
@@ -162,13 +220,35 @@ When user says "Proceed to P3":
 2. Use STAGE_2_HANDOFF as the input (already in context)
 3. Execute Stage 3
 4. Output the presentation outline deliverable
+5. Output the STAGE_3_HANDOFF package
+6. Wait for user command
+
+## Proceeding to Stage 4
+
+When user says "Proceed to P4":
+
+1. Read "Prompt 4 - Slide Design Specification"
+2. Use STAGE_3_HANDOFF as the input (already in context)
+3. Execute Stage 4 with CoT/CoD techniques
+4. Output the JSON slide specification
+5. Output the STAGE_4_HANDOFF package
+6. Wait for user command
+
+## Proceeding to Stage 5
+
+When user says "Proceed to P5":
+
+1. Read "Prompt 5 - Slide Generation"
+2. Use STAGE_4_HANDOFF as the input (already in context)
+3. Execute Stage 5
+4. Output the final slide presentation
 5. Compile and display FINAL_DELIVERABLES summary
 
 ---
 
 # FINAL DELIVERABLES FORMAT
 
-After Stage 3 completes, present all artifacts:
+After Stage 5 completes, present all artifacts:
 
 ```markdown
 # PIPELINE COMPLETE
@@ -184,26 +264,32 @@ After Stage 3 completes, present all artifacts:
 | Summary Density | [Sparse/Moderate/Rich] |
 | Presentation Complexity | [Low/Medium/High] |
 | Total Slides | [#] |
+| JSON Schema Version | [1.0] |
 
 ---
 
 ## Deliverable 1: Raw Research
-[Full Stage 1 output — can be collapsed/expanded]
-
----
+**Location**: See Stage 1 output above
 
 ## Deliverable 2: Executive Summary
-[Full Stage 2 output]
+**Location**: See Stage 2 output above
 
----
+## Deliverable 3: Presentation Outline
+**Location**: See Stage 3 output above
 
-## Deliverable 3: Slide Presentation Outline
-[Full Stage 3 output]
+## Deliverable 4: JSON Slide Specification
+**Location**: See Stage 4 output above
+
+## Deliverable 5: Final Slide Presentation
+[Full Stage 5 output]
 
 ---
 
 ## Appendix: Source Master List
 [Consolidated sources from all stages with tier classifications]
+
+## Appendix: Traceability Matrix
+[Q-ID → Finding → Summary → Slide → JSON Element mapping]
 ```
 
 ---
@@ -217,11 +303,13 @@ After Stage 3 completes, present all artifacts:
 | P1 | Research brief unclear | Ask user for clarification before proceeding |
 | P2 | Research has <3 findings | Produce Research Gap Assessment instead of Summary |
 | P3 | Summary has <3 claims | Alert user; suggest returning to P2 with more research |
+| P4 | Outline has <5 slides | Alert user; may need more content in P3 |
+| P5 | JSON invalid or incomplete | Alert user; return to P4 for correction |
 
 ## If User Skips a Stage
 
-If user says "Proceed to P3" without completing P2:
-- Alert: "Stage 2 (Executive Summary) has not been executed. The presentation requires a summary as input. Please say 'Proceed to P2' first, or provide an executive summary directly."
+If user attempts to skip stages (e.g., "Proceed to P4" without completing P3):
+- Alert: "Stage [X] has not been executed. Stage [Y] requires [X]'s output as input. Please complete stages in order."
 
 ---
 
@@ -234,15 +322,19 @@ Throughout the pipeline session, maintain:
 1. **Original research brief** — Reference for all stages
 2. **All stage outputs** — Full deliverables, not just handoffs
 3. **Cumulative metadata** — Q-IDs, confidence levels, source tiers
-4. **Abbreviation table** — Created in P2, used in P3
-5. **Flags and warnings** — From any stage
+4. **Abbreviation table** — Created in P2, used in P3-P5
+5. **JSON specification** — From P4, used in P5
+6. **Flags and warnings** — From any stage
 
-## Context Limits
+## Context Priority (if approaching limits)
 
-If context becomes too long:
-1. Prioritize: Current stage input > Previous handoff packages > Full previous outputs
-2. Summarize earlier outputs if needed, but preserve all handoff package data
-3. Never discard: Q-ID mappings, confidence levels, source tier classifications
+1. Current stage prompt instructions (NON-NEGOTIABLE)
+2. Most recent handoff package metadata tables
+3. JSON specification (for P5)
+4. Previous stage's full output
+5. Earlier stages' outputs (summarize if needed)
+
+Never discard: Q-ID mappings, confidence levels, source tier classifications, JSON schema
 
 ---
 

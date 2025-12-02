@@ -7,7 +7,13 @@
 
 This schema defines the standardized format for passing data between pipeline stages. Each stage outputs a HANDOFF PACKAGE that the next stage consumes as input.
 
-**Key Principle**: Information should flow through the pipeline without loss. Metadata established in Stage 1 (Q-IDs, confidence levels, source tiers) must be preserved and accessible in Stage 3.
+**Key Principle**: Information should flow through the pipeline without loss. Metadata established in Stage 1 (Q-IDs, confidence levels, source tiers) must be preserved and accessible through Stage 5.
+
+**Pipeline Structure**: 5 stages with 4 handoffs + 1 final deliverable package
+
+```
+P1 ──STAGE_1_HANDOFF──▶ P2 ──STAGE_2_HANDOFF──▶ P3 ──STAGE_3_HANDOFF──▶ P4 ──STAGE_4_HANDOFF──▶ P5 ──FINAL_DELIVERABLES
+```
 
 ---
 
@@ -175,23 +181,216 @@ Consumed by: `Prompt 3 - Slide Presentation Outline`
 
 ---
 
-# FINAL DELIVERABLES PACKAGE
+# STAGE 3 HANDOFF PACKAGE
 
 Output by: `Prompt 3 - Slide Presentation Outline`
+Consumed by: `Prompt 4 - Slide Design Specification`
+
+```markdown
+<<<STAGE_3_HANDOFF>>>
+
+## Pipeline Metadata
+| Field | Value |
+|-------|-------|
+| Stage | 3 - Presentation Outline |
+| Executed | [Date/Time] |
+| Presentation Complexity | [Low / Medium / High] |
+| Main Slides | [#] |
+| Appendix Slides | [#] |
+| Framework | [Pyramid / SCR / Transformation / Countdown / Evidence Cascade] |
+| Duration | [15 / 20 / 30 min] |
+
+## Inherited from Previous Stages
+| Field | Value | Source |
+|-------|-------|--------|
+| Research Depth | [Brief/Standard/Comprehensive] | Stage 1 |
+| Data Freshness | [Date] | Stage 1 |
+| Summary Density | [Sparse/Moderate/Rich] | Stage 2 |
+| Core Thesis | [One sentence] | Stage 2 |
+
+## Research Brief (Original)
+[Carried forward from Stage 1]
+
+## Governing Thought
+> "[Single sentence ≤25 words capturing entire argument]"
+
+## Headline Sequence
+| Slide # | Title (Assertion) | Type | F-Refs |
+|---------|-------------------|------|--------|
+| 1 | [Title] | Setup | — |
+| 2 | [Title] | Evidence | F1 |
+| 3 | [Title] | Evidence | F2, F3 |
+| ... | ... | ... | ... |
+
+## Slide Inventory
+| Slide # | Title | Type | Content Summary | Visual Type | Speaker Note Summary |
+|---------|-------|------|-----------------|-------------|---------------------|
+| 1 | [Title] | Setup | [2-3 bullets summary] | [Chart/Image/Text] | [Key speaking points] |
+| 2 | [Title] | Evidence | [2-3 bullets summary] | [Chart type] | [Key speaking points] |
+| ... | ... | ... | ... | ... | ... |
+
+## Visual Elements Specified
+| Slide # | Visual Type | Data Points | Recommended Chart |
+|---------|-------------|-------------|-------------------|
+| 3 | Data visualization | [Stats used] | Bar chart |
+| 5 | Comparison | [Entities compared] | Table |
+| 7 | Timeline | [Events] | Gantt/Timeline |
+
+## Appendix Slides
+| ID | Title | Trigger Question | Content Summary |
+|----|-------|------------------|-----------------|
+| A1 | [Title] | "[Question]" | [Summary] |
+| A2 | [Title] | "[Question]" | [Summary] |
+
+## Branded Concepts (Carried Forward)
+| Concept | Used in Slide # | As |
+|---------|-----------------|-----|
+| [Concept] | 4, 7 | Section header |
+
+## Confidence by Slide
+| Slide # | Claims | Confidence | Speaker Note Flag |
+|---------|--------|------------|-------------------|
+| 3 | [Claim summary] | High | None |
+| 5 | [Claim summary] | Low | [CONFIDENCE: LOW] |
+
+## Citation Abbreviation Table (Carried Forward)
+| Abbreviation | Full Name | Tier | Used in Slides |
+|--------------|-----------|------|----------------|
+| [Abbrev] | [Full name] | [1-4] | 2, 4, 7 |
+
+## Traceability Summary
+| Q-ID | F-ID | Summary Section | Slide # |
+|------|------|-----------------|---------|
+| Q1 | F1 | [Section] | 2, 3 |
+| Q1.2 | F2 | [Section] | 4 |
+
+## Flags for Stage 4
+[Recommendations for JSON specification and slide design]
+- [ ] [e.g., "Slide 3 needs bar chart with 4 data points"]
+- [ ] [e.g., "Slide 7 timeline spans 2020-2025"]
+- [ ] [e.g., "Consider dark theme for executive audience"]
+- [ ] [e.g., "Appendix A1 likely to be triggered - prepare detailed version"]
+
+## Full Presentation Outline
+[Complete Stage 3 deliverable — all slides with full content, speaker notes, and process notes]
+
+<<<END_STAGE_3_HANDOFF>>>
+```
+
+---
+
+# STAGE 4 HANDOFF PACKAGE
+
+Output by: `Prompt 4 - Slide Design Specification`
+Consumed by: `Prompt 5 - Slide Generation`
+
+```markdown
+<<<STAGE_4_HANDOFF>>>
+
+## Pipeline Metadata
+| Field | Value |
+|-------|-------|
+| Stage | 4 - Slide Design Specification |
+| Executed | [Date/Time] |
+| JSON Schema Version | 1.0 |
+| Total Slides | [#] main + [#] appendix |
+| Design System | [Theme name] |
+
+## Inherited from Previous Stages
+| Field | Value | Source |
+|-------|-------|--------|
+| Research Depth | [Brief/Standard/Comprehensive] | Stage 1 |
+| Data Freshness | [Date] | Stage 1 |
+| Summary Density | [Sparse/Moderate/Rich] | Stage 2 |
+| Presentation Complexity | [Low/Medium/High] | Stage 3 |
+| Framework | [Framework name] | Stage 3 |
+| Governing Thought | [One sentence] | Stage 3 |
+
+## Research Brief (Original)
+[Carried forward from Stage 1]
+
+## Design System Summary
+| Element | Specification |
+|---------|---------------|
+| Primary Color | [Hex code] |
+| Secondary Color | [Hex code] |
+| Accent Color | [Hex code] |
+| Title Font | [Font name, size] |
+| Body Font | [Font name, size] |
+| Layout Grid | [12-column / other] |
+
+## Content Density Versions
+[Created via Chain of Density process]
+| Slide # | Verbose | Standard | Dense |
+|---------|---------|----------|-------|
+| 2 | [Full text] | [Condensed] | [Minimal] |
+| 3 | [Full text] | [Condensed] | [Minimal] |
+
+## Layout Template Assignments
+| Slide # | Template | Rationale (CoT) |
+|---------|----------|-----------------|
+| 1 | title-centered | Opening slide, single focus |
+| 2 | content-left-visual-right | Data point with chart |
+| 3 | full-width-chart | Complex data, needs space |
+
+## Chart Specifications
+| Slide # | Chart Type | Data Series | Labels | Colors |
+|---------|------------|-------------|--------|--------|
+| 3 | Bar (horizontal) | [Series names] | [X/Y labels] | [Color assignments] |
+| 5 | Line (multi) | [Series names] | [X/Y labels] | [Color assignments] |
+
+## JSON Specification
+[Complete JSON structure — see full format below]
+
+## Validation Results
+| Check | Status |
+|-------|--------|
+| Schema compliance | ✅ Pass |
+| Color accessibility | ✅ Pass |
+| Content density | ✅ Pass |
+| Chart data completeness | ✅ Pass |
+| Traceability preserved | ✅ Pass |
+
+## Flags for Stage 5
+- [ ] [e.g., "PowerPoint: use SmartArt for slide 4"]
+- [ ] [e.g., "Google Slides: custom color theme needed"]
+- [ ] [e.g., "Keynote: magic move transition for slide 6-7"]
+- [ ] [e.g., "Animation: build bullets sequentially on slide 8"]
+
+## Full JSON Specification
+```json
+{
+  "presentation": { ... }
+}
+```
+[Complete JSON output]
+
+<<<END_STAGE_4_HANDOFF>>>
+```
+
+---
+
+# FINAL DELIVERABLES PACKAGE
+
+Output by: `Prompt 5 - Slide Generation`
 This is the terminal output — no further handoff needed.
 
 ```markdown
 <<<FINAL_DELIVERABLES>>>
 
+# PIPELINE COMPLETE
+
+## Research Topic
+[Original research brief - carried through all stages]
+
 ## Pipeline Execution Summary
 | Stage | Status | Key Metrics |
 |-------|--------|-------------|
-| 1 - Research | ✅ Complete | [X] findings, [Y] sources |
-| 2 - Summary | ✅ Complete | [X] words, [Density] |
-| 3 - Presentation | ✅ Complete | [X] slides + [Y] appendix |
-
-## Research Brief (Original)
-[Carried through entire pipeline]
+| 1 - Deep Research | ✅ Complete | [X] findings, [Y] sources across [Z] tiers |
+| 2 - Executive Summary | ✅ Complete | [X] words, [Density] density |
+| 3 - Presentation Outline | ✅ Complete | [X] main slides + [Y] appendix |
+| 4 - Slide Design Spec | ✅ Complete | JSON v1.0, [X] layouts |
+| 5 - Slide Generation | ✅ Complete | [Platform] format |
 
 ## Cumulative Metadata
 | Field | Value |
@@ -199,41 +398,107 @@ This is the terminal output — no further handoff needed.
 | Research Depth | [Brief/Standard/Comprehensive] |
 | Summary Density | [Sparse/Moderate/Rich] |
 | Presentation Complexity | [Low/Medium/High] |
+| Total Research Questions | [#] |
 | Total Findings | [#] |
-| Total Sources | [#] by tier |
-| Data Freshness | [Date] |
+| Total Sources | [#] by tier: T1=[#], T2=[#], T3=[#], T4=[#] |
+| Data Freshness | [Date of most recent source] |
+| JSON Schema Version | 1.0 |
 | Pipeline Executed | [Date] |
 
 ---
 
 ## DELIVERABLE 1: Raw Research
+**Location**: See Stage 1 output above (not duplicated to conserve context)
 
-[Full Stage 1 output]
+**Key Sections**:
+- Executive Summary: Section 1
+- Research Questions: Section 3A
+- Detailed Findings: Section 4
+- Source Documentation: Appendix A
 
 ---
 
 ## DELIVERABLE 2: Executive Summary
+**Location**: See Stage 2 output above (not duplicated to conserve context)
 
-[Full Stage 2 output — summary only, process notes optional]
-
----
-
-## DELIVERABLE 3: Slide Presentation Outline
-
-[Full Stage 3 output — all slides + appendix + headline sequence]
+**Key Elements**:
+- Core Thesis: [Single sentence]
+- Narrative Arc: [Pattern used]
+- Word Count: [#]
 
 ---
 
-## Master Source List
-| Abbrev | Full Name | Tier | Used In |
-|--------|-----------|------|---------|
-| [Abbrev] | [Name] | [1-4] | P1, P2, P3 |
+## DELIVERABLE 3: Presentation Outline
+**Location**: See Stage 3 output above (not duplicated to conserve context)
 
-## Q-ID to Slide Traceability
-| Q-ID | Finding | Summary Section | Slide # |
-|------|---------|-----------------|---------|
-| Q1 | F1 | [Section] | 3, 4 |
-| Q1.2 | F2 | [Section] | 5 |
+**Key Elements**:
+- Governing Thought: [Single sentence]
+- Framework: [Pattern used]
+- Slide Count: [#] main + [#] appendix
+
+---
+
+## DELIVERABLE 4: JSON Slide Specification
+**Location**: See Stage 4 output above (not duplicated to conserve context)
+
+**Key Elements**:
+- Schema Version: 1.0
+- Design System: [Theme summary]
+- Layout Templates: [Count]
+
+---
+
+## DELIVERABLE 5: Final Slide Presentation
+[Full Stage 5 output - complete slide content ready for platform]
+
+---
+
+## APPENDIX: Master Source List
+
+**Tier 1 (Regulatory/Official)**:
+| Abbreviation | Full Name | Used In Stages |
+|--------------|-----------|----------------|
+| [Abbrev] | [Full name] | 1, 2, 3, 4, 5 |
+
+**Tier 2-4**: [Similar format]
+
+---
+
+## APPENDIX: Full Traceability Matrix
+
+| Q-ID | F-ID | Confidence | Summary Section | Slide # | JSON Element |
+|------|------|------------|-----------------|---------|--------------|
+| Q1 | F1 | High | [Section] | 3 | slides[2] |
+| Q1.1 | F2 | Medium | [Section] | 4, 5 | slides[3], slides[4] |
+| Q1.2 | F3 | Low | [Section] | 6 | slides[5] |
+| Q2 | F4 | High | [Section] | 7 | slides[6] |
+
+---
+
+## USAGE NOTES
+
+### For Raw Research (Deliverable 1)
+- Complete reference document with full source citations
+- Use for due diligence, detailed questions, or audit trail
+
+### For Executive Summary (Deliverable 2)
+- Standalone 2-4 page document for distribution
+- Can be shared without presentation
+
+### For Presentation Outline (Deliverable 3)
+- Detailed slide-by-slide guide with speaker notes
+- Use for presentation preparation and rehearsal
+
+### For JSON Specification (Deliverable 4)
+- Machine-readable format for slide generation tools
+- Can be imported into: Gamma, Beautiful.ai, custom tools
+
+### For Final Presentation (Deliverable 5)
+- Ready-to-use slide content
+- Platform-specific formatting included
+
+## Data Freshness Warning
+*Research conducted [date]. Data current as of [data freshness date]. For rapidly evolving topics, validate key statistics before presentation.*
 
 <<<END_FINAL_DELIVERABLES>>>
 ```
@@ -244,14 +509,13 @@ This is the terminal output — no further handoff needed.
 
 ## Consistent Terminology
 
-| Concept | Stage 1 Term | Stage 2 Term | Stage 3 Term |
-|---------|--------------|--------------|--------------|
-| Research questions | Q-ID (Q1, Q1.1) | Q-Ref | Q-Ref |
-| Findings | F[#] | F[#] | F[#] |
-| Confidence | High/Medium/Low/Speculative | High/Med/Low | High/Med/Low |
-| Source authority | Tier 1-5 | Tier 1-4 | Tier (in footnotes) |
-| Inference marker | `[INFERENCE]` | `[INFERENCE]` | `[INFERENCE]` in speaker notes |
-| Gaps | Appendix C | Gaps Acknowledged | Appendix slides |
+| Concept | Stage 1 | Stage 2 | Stage 3 | Stage 4 | Stage 5 |
+|---------|---------|---------|---------|---------|---------|
+| Research questions | Q-ID | Q-Ref | Q-Ref | Q-Ref | Q-Ref |
+| Findings | F[#] | F[#] | F-Refs | F-Refs | F-Refs |
+| Confidence | High/Med/Low/Spec | High/Med/Low | High/Med/Low | Preserved | Preserved |
+| Source authority | Tier 1-5 | Tier 1-4 | Footnotes | JSON field | Footnotes |
+| Inference marker | `[INFERENCE]` | `[INFERENCE]` | Speaker notes | JSON field | Slide notes |
 
 ## Confidence Level Definitions (Universal)
 
@@ -275,9 +539,9 @@ This is the terminal output — no further handoff needed.
 
 # CITATION FORMAT (Universal)
 
-## In-Text Citations
+## In-Text Citations (Stages 1-2)
 
-All stages use: `[Abbreviation, location]`
+`[Abbreviation, location]`
 
 | Example | When to Use |
 |---------|-------------|
@@ -285,43 +549,59 @@ All stages use: `[Abbreviation, location]`
 | `[Research Report, F3]` | Referencing pipeline research |
 | `[McKinsey, Ex.2]` | Exhibit reference |
 
-## Footnotes (Stage 3 Only)
+## Slide Footnotes (Stages 3-5)
 
-Slide footnotes use: `Source: [Abbreviation, location]`
+`Source: [Abbreviation, location]`
 
 Example: `Source: BIS 2024, p.34; McKinsey GPR, Ex.2`
 
-## Traceability Chain
-
-For maximum traceability, Stage 3 can reference the full chain:
+## Full Traceability Chain
 
 `Source: [Research Report, F3 ← Q1.2] via [BIS 2024, p.12]`
 
-This shows: Slide claim ← Summary finding ← Research question ← Original source
+Shows: Slide claim ← Summary finding ← Research question ← Original source
 
 ---
 
 # VALIDATION RULES
 
-## Stage 1 → Stage 2 Validation
+## Stage 1 → Stage 2
 
-Before executing Stage 2, verify:
 - [ ] STAGE_1_HANDOFF package is present
 - [ ] At least 3 findings (F-IDs) exist
 - [ ] Source tier summary is populated
 - [ ] Research questions index is complete
 
-If validation fails: Produce Research Gap Assessment instead of Executive Summary
+**If fails**: Produce Research Gap Assessment instead of Executive Summary
 
-## Stage 2 → Stage 3 Validation
+## Stage 2 → Stage 3
 
-Before executing Stage 3, verify:
 - [ ] STAGE_2_HANDOFF package is present
 - [ ] Executive Summary exists (not Gap Assessment)
 - [ ] At least 3 synthesized claims with citations
 - [ ] Narrative elements are defined
 
-If validation fails: Alert user that summary is insufficient for presentation
+**If fails**: Alert user that summary is insufficient for presentation
+
+## Stage 3 → Stage 4
+
+- [ ] STAGE_3_HANDOFF package is present
+- [ ] At least 5 slides in outline
+- [ ] Headline sequence complete
+- [ ] Visual types specified for data slides
+- [ ] Speaker notes present
+
+**If fails**: Alert user; may need more content development in Stage 3
+
+## Stage 4 → Stage 5
+
+- [ ] STAGE_4_HANDOFF package is present
+- [ ] JSON schema is valid
+- [ ] All slides have layout assignments
+- [ ] Design system is complete
+- [ ] Content density versions available
+
+**If fails**: Alert user; return to Stage 4 for JSON correction
 
 ---
 
@@ -329,14 +609,16 @@ If validation fails: Alert user that summary is insufficient for presentation
 
 ## What Must Never Be Lost
 
-| Data | Created In | Must Appear In |
-|------|------------|----------------|
-| Q-IDs | Stage 1 | Stage 2, Stage 3 (traceability) |
-| Confidence levels | Stage 1 | Stage 2, Stage 3 (speaker notes) |
-| Source tiers | Stage 1 | Stage 2, Stage 3 (footnotes) |
-| Conflicts | Stage 1 | Stage 2, Stage 3 (acknowledged) |
-| Gaps | Stage 1 | Stage 2, Stage 3 (flagged) |
-| Data freshness date | Stage 1 | Stage 2, Stage 3 (footnote) |
+| Data | Created In | Must Appear Through |
+|------|------------|---------------------|
+| Q-IDs | Stage 1 | Stages 2, 3, 4, 5 (traceability) |
+| Confidence levels | Stage 1 | Stages 2, 3, 4, 5 |
+| Source tiers | Stage 1 | Stages 2, 3, 4, 5 |
+| Conflicts | Stage 1 | Stages 2, 3 (acknowledged) |
+| Gaps | Stage 1 | Stages 2, 3 (flagged) |
+| Data freshness | Stage 1 | Stages 2, 3, 4, 5 (footnotes) |
+| Governing thought | Stage 3 | Stages 4, 5 |
+| JSON specification | Stage 4 | Stage 5 |
 
 ## Degradation Warnings
 
