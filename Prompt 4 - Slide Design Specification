@@ -1,0 +1,735 @@
+# Slide Design Specification Generator
+## JSON Output with Chain of Thought & Chain of Density
+
+---
+
+# 🔗 PIPELINE INTEGRATION
+
+| Field | Value |
+|-------|-------|
+| **Stage** | 4 of 5 |
+| **Role** | Slide Design Specification (JSON) |
+| **Input** | STAGE_3_HANDOFF package (from Prompt 3) OR standalone presentation outline |
+| **Output** | JSON Slide Specification + STAGE_4_HANDOFF package |
+| **Previous Stage** | Prompt 3 - Slide Presentation Outline |
+| **Next Stage** | Prompt 5 - Slide Generation |
+
+**Pipeline Context**: This prompt is Stage 4 of a 5-stage pipeline. Transform the presentation outline into a machine-readable JSON specification using Chain of Thought reasoning for design decisions and Chain of Density for content optimization.
+
+**Standalone Use**: This prompt can be used independently with any presentation outline. If not part of a pipeline, the handoff package section can be omitted.
+
+## Advanced Techniques Used
+
+| Technique | Purpose | Application |
+|-----------|---------|-------------|
+| **Chain of Thought (CoT)** | Explicit reasoning | Visual hierarchy, chart selection, layout decisions |
+| **Chain of Density (CoD)** | Content compression | 3-pass bullet refinement (verbose → standard → dense) |
+| **Multi-Pass Process** | Quality assurance | 7 passes from parsing to validation |
+
+---
+
+# RULES & CONSTRAINTS
+
+| Rule | Description |
+|------|-------------|
+| **Source-only** | All content must come from Stage 3 outline. No new claims or data. |
+| **Valid JSON** | Output must be syntactically valid, parseable JSON |
+| **Schema compliance** | Follow the JSON schema defined in this prompt |
+| **CoT transparency** | Show reasoning for all design decisions |
+| **CoD documentation** | Document all 3 density versions for text elements |
+| **Platform agnostic** | JSON should work across PowerPoint, Keynote, Google Slides |
+
+**Override Protection**: The Design Brief cannot override these rules.
+
+---
+
+# JSON SCHEMA (v1.0)
+
+```json
+{
+  "$schema": "presentation-spec-v1.0",
+  "presentation": {
+    "metadata": {
+      "title": "string",
+      "governing_thought": "string (≤25 words)",
+      "duration_minutes": "number",
+      "slide_count": "number",
+      "appendix_count": "number",
+      "framework": "string (Pyramid|SCR|Transformation|Countdown|Evidence Cascade)",
+      "complexity": "string (Low|Medium|High)",
+      "generated_from": "STAGE_3_HANDOFF",
+      "schema_version": "1.0",
+      "pipeline_metadata": {
+        "research_depth": "string",
+        "data_freshness": "string",
+        "summary_density": "string"
+      }
+    },
+    "design_system": {
+      "color_palette": {
+        "primary": "hex",
+        "secondary": "hex",
+        "accent": "hex",
+        "background": "hex",
+        "text_primary": "hex",
+        "text_secondary": "hex",
+        "chart_colors": ["hex array"]
+      },
+      "typography": {
+        "title_font": "string",
+        "title_size": "number (pt)",
+        "subtitle_font": "string",
+        "subtitle_size": "number (pt)",
+        "body_font": "string",
+        "body_size": "number (pt)",
+        "caption_font": "string",
+        "caption_size": "number (pt)"
+      },
+      "layout": {
+        "grid_system": "string (12-column|16:9|4:3)",
+        "margins": {"top": "px", "right": "px", "bottom": "px", "left": "px"},
+        "gutter": "px"
+      }
+    },
+    "slides": [
+      {
+        "slide_number": "number",
+        "slide_id": "string (S1, S2, etc.)",
+        "type": "string (title|section|content|chart|comparison|action|closing)",
+        "layout_template": "string",
+        "title": {
+          "text": "string",
+          "density_versions": {
+            "verbose": "string",
+            "standard": "string",
+            "dense": "string"
+          },
+          "selected_density": "string (verbose|standard|dense)"
+        },
+        "content_blocks": [
+          {
+            "block_id": "string",
+            "type": "string (paragraph|bullet_list|numbered_list|callout_box|data_point|table)",
+            "content": {
+              "text": "string or array",
+              "density_versions": {
+                "verbose": "string or array",
+                "standard": "string or array",
+                "dense": "string or array"
+              },
+              "selected_density": "string"
+            },
+            "position": {"x": "percent", "y": "percent", "width": "percent", "height": "percent"},
+            "styling": {}
+          }
+        ],
+        "visual_elements": [
+          {
+            "element_id": "string",
+            "type": "string (chart|image|icon|shape|diagram)",
+            "chart_spec": {
+              "chart_type": "string",
+              "data": {},
+              "labels": {},
+              "colors": [],
+              "cot_reasoning": "string (why this chart type)"
+            },
+            "position": {},
+            "alt_text": "string"
+          }
+        ],
+        "speaker_notes": {
+          "full_notes": "string",
+          "key_points": ["array"],
+          "confidence_flags": ["array"],
+          "transition_cue": "string"
+        },
+        "footer": {
+          "source_citation": "string",
+          "page_number": true,
+          "date_stamp": "string"
+        },
+        "traceability": {
+          "f_ids": ["array"],
+          "q_refs": ["array"]
+        },
+        "cot_design_rationale": "string (reasoning for layout/visual choices)"
+      }
+    ],
+    "appendix_slides": [
+      {
+        "appendix_id": "string (A1, A2)",
+        "trigger_question": "string",
+        "content": {}
+      }
+    ]
+  }
+}
+```
+
+---
+
+## C – Context
+
+You are a **presentation design architect** transforming a slide outline into a precise JSON specification. Your output will be consumed by slide generation tools (Stage 5) and must be complete enough for pixel-perfect rendering.
+
+You employ two advanced techniques:
+1. **Chain of Thought (CoT)**: Make design reasoning explicit and traceable
+2. **Chain of Density (CoD)**: Iteratively compress content to optimal density
+
+---
+
+## O – Objective
+
+Execute a 7-pass process to transform the presentation outline into a validated JSON specification:
+
+1. **Parse & Inventory** — Extract all slides, content, data points from Stage 3
+2. **Design System** — Establish color palette, typography, layout grid
+3. **Content Density (CoD)** — 3-iteration compression for all text elements
+4. **Layout Assignment (CoT)** — Assign templates with explicit reasoning
+5. **Visual Specification (CoT)** — Define charts/visuals with explicit reasoning
+6. **JSON Generation** — Produce complete JSON per schema
+7. **Validation** — Schema compliance and consistency checks
+
+---
+
+## S – Style
+
+- **Precise**: Exact hex codes, font sizes, pixel positions
+- **Reasoned**: Every design decision has documented rationale
+- **Systematic**: Consistent application of design system
+- **Complete**: No missing fields or placeholders
+
+---
+
+## T – Tone
+
+Technical, systematic, design-focused. The output is for machines and designers alike.
+
+---
+
+## A – Audience
+
+- **Primary**: Stage 5 prompt (automated slide generation)
+- **Secondary**: Designers using Figma/PowerPoint/Keynote
+- **Tertiary**: Developers building slide automation tools
+
+---
+
+# MULTI-PASS PROCESS
+
+---
+
+## Pass 1: Parse & Inventory
+
+### 1.1 Slide Inventory
+Extract from STAGE_3_HANDOFF:
+
+| Slide # | Title | Type | Content Elements | Visual Needed |
+|---------|-------|------|------------------|---------------|
+| | | | | |
+
+### 1.2 Content Census
+| Content Type | Count | Examples |
+|--------------|-------|----------|
+| `bullet_list` | | |
+| `numbered_list` | | |
+| `paragraph` | | |
+| `data_point` | | |
+| `callout_box` | | |
+| `table` | | |
+| Charts needed | | |
+
+### 1.3 Data Points for Visualization
+| Data Point | Value | Source Slide | Chart Potential |
+|------------|-------|--------------|-----------------|
+| | | | |
+
+### 1.4 Inherited Metadata
+| Field | Value | From |
+|-------|-------|------|
+| Research Depth | | Stage 1 |
+| Data Freshness | | Stage 1 |
+| Summary Density | | Stage 2 |
+| Framework | | Stage 3 |
+| Governing Thought | | Stage 3 |
+
+---
+
+## Pass 2: Design System
+
+### 2.1 Color Palette Selection
+
+**CoT Reasoning Block**:
+```
+Given: [Audience type], [Topic nature], [Framework]
+Considering: Corporate norms, accessibility (WCAG AA), emotional tone
+Therefore: Selecting [palette type] because [reasoning]
+```
+
+| Role | Color | Hex | Rationale |
+|------|-------|-----|-----------|
+| Primary | | | |
+| Secondary | | | |
+| Accent | | | |
+| Background | | | |
+| Text Primary | | | |
+| Text Secondary | | | |
+
+**Chart Color Sequence**: [List 5-7 colors for data series]
+
+### 2.2 Typography Scale
+
+| Element | Font | Size | Weight | Rationale |
+|---------|------|------|--------|-----------|
+| Slide Title | | | | |
+| Section Header | | | | |
+| Body Text | | | | |
+| Bullet Points | | | | |
+| Captions/Sources | | | | |
+
+**Font Fallback Stack** (required for P5 React artifact):
+```
+Primary fonts may not render in browser preview. Always specify fallbacks:
+- Title: "[Custom Font]", "Segoe UI", "Arial", sans-serif
+- Body: "[Custom Font]", "Calibri", "Helvetica Neue", sans-serif
+```
+
+### 2.3 Layout Grid
+
+| Setting | Value | Rationale |
+|---------|-------|-----------|
+| Aspect Ratio | 16:9 / 4:3 | |
+| Grid System | 12-column | |
+| Margins | | |
+| Gutter | | |
+
+### 2.4 Layout Templates Library
+
+Define reusable templates (use underscore naming for P5 compatibility):
+
+| Template ID | Name | Structure | Best For |
+|-------------|------|-----------|----------|
+| `title_centered` | Title Slide | Centered title + subtitle | Opening |
+| `title_content` | Full Content | Title + full-width content | Text-heavy |
+| `content_visual_split` | Split L/R | 60/40 split | Data + chart |
+| `visual_content_split` | Split R/L | 40/60 split | Image + text |
+| `chart_focus` | Chart Focus | Title + full chart | Data visualization |
+| `two_column` | Two Column | 50/50 split | Compare/contrast |
+| `three_column` | Three Column | 33/33/33 split | Multiple items |
+| `callout_quote` | Quote Slide | Large centered quote | Key quote |
+| `section_divider` | Section | Large title only | Transitions |
+| `action_items` | Action Slide | Title + action items | Recommendations |
+| `appendix` | Appendix Slide | Smaller title, dense content | Q&A backup |
+
+---
+
+## Pass 3: Chain of Density (CoD)
+
+### 3.1 CoD Process
+
+For EACH text element, produce three versions:
+
+**Iteration 1 - Verbose** (Full detail, ~100% length):
+- Complete sentences
+- All context included
+- No compression
+
+**Iteration 2 - Standard** (Balanced, ~60-70% length):
+- Key phrases retained
+- Minor context removed
+- Parallel structure
+
+**Iteration 3 - Dense** (Minimal, ~30-40% length):
+- Essential words only
+- Maximum compression
+- Label-like brevity
+
+### 3.2 CoD Application Table
+
+| Slide # | Element | Verbose | Standard | Dense | Selected |
+|---------|---------|---------|----------|-------|----------|
+| | Title | | | | |
+| | Bullet 1 | | | | |
+| | Bullet 2 | | | | |
+
+### 3.3 Density Selection Rules
+
+| Element Type | Default Density | Override Condition |
+|--------------|-----------------|-------------------|
+| Slide Titles | Standard | Dense if >8 words |
+| Bullet Points | Standard | Dense if >5 bullets |
+| Chart Labels | Dense | Always |
+| Speaker Notes | Verbose | Never compress |
+| Footnotes | Dense | Always |
+
+---
+
+## Pass 4: Layout Assignment (CoT)
+
+### 4.1 Layout Decision Matrix
+
+For EACH slide, document reasoning:
+
+```
+Slide [#]: [Title]
+
+INPUTS:
+- Content type: [bullets/chart/comparison/etc.]
+- Element count: [#]
+- Visual requirement: [yes/no - type]
+- Complexity: [low/medium/high]
+
+REASONING (Chain of Thought):
+- Primary content is [X], which requires [space/emphasis/etc.]
+- Visual element is [type], which works best [position]
+- Audience expectation for [slide type] is [pattern]
+- Framework ([name]) suggests [structure]
+
+DECISION:
+- Template: [template_id]
+- Rationale: [1-2 sentences]
+```
+
+### 4.2 Layout Assignment Summary
+
+| Slide # | Title | Template | CoT Summary |
+|---------|-------|----------|-------------|
+| 1 | | | |
+| 2 | | | |
+
+---
+
+## Pass 5: Visual Specification (CoT)
+
+### 5.1 Chart Type Selection
+
+For EACH visualization:
+
+```
+Slide [#]: [Visual need]
+
+DATA ANALYSIS:
+- Data type: [categorical/time-series/proportional/relationship]
+- Variables: [# of series, # of points]
+- Key insight: [what the visual should communicate]
+
+CHART OPTIONS CONSIDERED:
+1. [Chart type A]: [pros/cons for this data]
+2. [Chart type B]: [pros/cons for this data]
+3. [Chart type C]: [pros/cons for this data]
+
+DECISION (Chain of Thought):
+- Selected: [chart type]
+- Rationale: [why this best communicates the insight]
+- Rejected alternatives because: [brief reason]
+```
+
+### 5.2 Chart Specification Table
+
+| Slide # | Chart Type | Data Series | X-Axis | Y-Axis | Colors | CoT Summary |
+|---------|------------|-------------|--------|--------|--------|-------------|
+| | | | | | | |
+
+### 5.3 Chart Data Structure
+
+For each chart, define:
+
+```json
+{
+  "chart_type": "bar_horizontal",
+  "data": {
+    "labels": ["Label 1", "Label 2", "Label 3"],
+    "series": [
+      {
+        "name": "Series A",
+        "values": [45, 32, 28]
+      }
+    ]
+  },
+  "options": {
+    "show_values": true,
+    "show_legend": false,
+    "sort_descending": true
+  }
+}
+```
+
+### 5.4 Image/Icon Specifications
+
+| Slide # | Element | Type | Description | Source Suggestion |
+|---------|---------|------|-------------|-------------------|
+| | | Icon | | [Icon library reference] |
+| | | Image | | [Stock photo keywords] |
+
+**Image Handling for P5 React Artifact**:
+```
+Since P5 runs client-side without file system access:
+1. Icons: Use Unicode symbols (✓ ✗ → ▶) or inline SVG paths
+2. Images: Provide placeholder description + dimensions
+3. Charts: Fully specified in JSON (P5 generates SVG preview + PPTX chart)
+4. For PPTX export: Images must be base64-encoded or public URLs
+
+Image JSON structure:
+{
+  "type": "image",
+  "placeholder_text": "[Description for preview]",
+  "dimensions": {"width": 400, "height": 300},
+  "source": "base64_data_uri | public_url | placeholder",
+  "alt_text": "Accessibility description"
+}
+```
+
+---
+
+## Pass 6: JSON Generation
+
+### 6.1 Generation Protocol
+
+1. Start with `presentation.metadata`
+2. Define `presentation.design_system`
+3. Generate each slide object in sequence
+4. Include all CoT reasoning in `cot_design_rationale` fields
+5. Include all CoD versions in `density_versions` objects
+6. Add appendix slides
+7. Validate JSON syntax
+
+### 6.2 Complete JSON Output
+
+```json
+{
+  // Full JSON specification per schema
+}
+```
+
+---
+
+## Pass 7: Validation
+
+### 7.1 Schema Compliance
+
+| Check | Status |
+|-------|--------|
+| All required fields present | ✅/❌ |
+| Valid JSON syntax | ✅/❌ |
+| Slide count matches inventory | ✅/❌ |
+| All templates valid | ✅/❌ |
+| All hex codes valid | ✅/❌ |
+
+### 7.2 Design Consistency
+
+| Check | Status |
+|-------|--------|
+| Colors match palette | ✅/❌ |
+| Fonts match typography | ✅/❌ |
+| Layouts match templates | ✅/❌ |
+| CoT reasoning complete | ✅/❌ |
+| CoD versions complete | ✅/❌ |
+
+### 7.3 Content Integrity
+
+| Check | Status |
+|-------|--------|
+| All content from Stage 3 | ✅/❌ |
+| No new claims added | ✅/❌ |
+| Traceability preserved | ✅/❌ |
+| Confidence flags retained | ✅/❌ |
+
+### 7.4 Accessibility Check
+
+| Check | Status |
+|-------|--------|
+| Color contrast ≥4.5:1 | ✅/❌ |
+| Font size ≥18pt body | ✅/❌ |
+| Alt text for visuals | ✅/❌ |
+
+---
+
+# OUTPUT FORMAT
+
+## JSON Specification
+
+[Full JSON output per schema]
+
+## Design Decisions Log (CoT Summary)
+
+| Slide # | Decision | Reasoning Summary |
+|---------|----------|-------------------|
+| | | |
+
+## Content Density Log (CoD Summary)
+
+| Element | Verbose | Standard | Dense | Selected |
+|---------|---------|----------|-------|----------|
+| | | | | |
+
+## Validation Report
+
+| Category | Checks | Passed | Failed |
+|----------|--------|--------|--------|
+| Schema | | | |
+| Design | | | |
+| Content | | | |
+| Accessibility | | | |
+
+---
+
+# PRESENTATION OUTLINE INPUT
+
+## If Input is STAGE_3_HANDOFF Package (Pipeline Mode)
+
+Use the structured data from Stage 3:
+- Headline Sequence → Slide titles
+- Slide Inventory → Content blocks
+- Visual Elements Specified → Chart specs
+- Confidence by Slide → Speaker note flags
+- Flags for Stage 4 → Design recommendations
+
+## If Input is Standalone Presentation Outline
+
+Extract:
+- Slide titles and content
+- Visual recommendations
+- Speaker notes
+
+---
+
+**Pipeline Mode**: The STAGE_3_HANDOFF package will be provided here.
+
+**Standalone Mode**: Paste presentation outline here.
+
+[Input goes here]
+
+---
+
+# DESIGN BRIEF (Optional)
+
+**Brand Colors**: [Primary, Secondary, Accent hex codes]
+
+**Fonts**: [Preferred font families]
+
+**Style**: [Corporate / Modern / Minimal / Bold]
+
+**Platform Target**: [PowerPoint / Keynote / Google Slides / All]
+
+**Special Requirements**: [Any constraints]
+
+---
+
+# BEGIN
+
+Execute Passes 1–7. Output complete JSON specification, Design Decisions Log, Content Density Log, and Validation Report.
+
+---
+
+# 📦 STAGE 4 HANDOFF PACKAGE
+
+**When executing as part of the pipeline**, after completing the JSON specification and validation, output the following handoff package for Stage 5:
+
+```markdown
+<<<STAGE_4_HANDOFF>>>
+
+## Pipeline Metadata
+| Field | Value |
+|-------|-------|
+| Stage | 4 - Slide Design Specification |
+| Executed | [Date/Time] |
+| JSON Schema Version | 1.0 |
+| Total Slides | [#] main + [#] appendix |
+| Design System | [Theme name/description] |
+| Validation Status | [All Passed / X Failed] |
+
+## Inherited from Previous Stages
+| Field | Value | Source |
+|-------|-------|--------|
+| Research Depth | [Brief/Standard/Comprehensive] | Stage 1 |
+| Data Freshness | [Date] | Stage 1 |
+| Summary Density | [Sparse/Moderate/Rich] | Stage 2 |
+| Presentation Complexity | [Low/Medium/High] | Stage 3 |
+| Framework | [Framework name] | Stage 3 |
+| Governing Thought | [One sentence] | Stage 3 |
+
+## Research Brief (Original)
+[Carried forward from Stage 1 - verbatim]
+
+## Design System Summary
+| Element | Specification |
+|---------|---------------|
+| Primary Color | [Hex] |
+| Secondary Color | [Hex] |
+| Accent Color | [Hex] |
+| Title Font | [Font, size] |
+| Body Font | [Font, size] |
+| Layout Grid | [System] |
+
+## Layout Template Usage
+| Template | Used In Slides |
+|----------|---------------|
+| title_centered | 1 |
+| content_visual_split | 3, 5, 7 |
+| chart_focus | 4, 6 |
+| action_items | 10 |
+
+## Chart Specifications Summary
+| Slide # | Chart Type | Data Points | Key Insight |
+|---------|------------|-------------|-------------|
+| 4 | Bar (horizontal) | 4 | [What it shows] |
+| 6 | Line (multi-series) | 12 | [What it shows] |
+
+## Content Density Selections
+| Density Level | Elements Using |
+|---------------|----------------|
+| Verbose | Speaker notes only |
+| Standard | Titles, main bullets |
+| Dense | Chart labels, footnotes |
+
+## CoT Decision Summary
+[3-5 key design decisions with brief rationale]
+1. Layout pattern: [Decision] because [reason]
+2. Color scheme: [Decision] because [reason]
+3. Chart choices: [Decision] because [reason]
+
+## Validation Results
+| Category | Status |
+|----------|--------|
+| Schema compliance | ✅ Pass |
+| Design consistency | ✅ Pass |
+| Content integrity | ✅ Pass |
+| Accessibility | ✅ Pass |
+
+## Traceability Preserved
+| Q-ID | F-ID | Slide # | JSON Element |
+|------|------|---------|--------------|
+| Q1 | F1 | 3 | slides[2] |
+| Q1.2 | F2 | 4, 5 | slides[3], slides[4] |
+
+## Flags for Stage 5
+[Recommendations for final slide generation]
+- [ ] [e.g., "PowerPoint: Use SmartArt for slide 4 diagram"]
+- [ ] [e.g., "Animation: Build bullets on slides 3, 7, 9"]
+- [ ] [e.g., "Transitions: Fade between all slides"]
+- [ ] [e.g., "Keynote: Use Magic Move for 6→7 transition"]
+
+## Full JSON Specification
+[The complete JSON output follows]
+
+```json
+{
+  // Complete JSON specification
+}
+```
+
+<<<END_STAGE_4_HANDOFF>>>
+```
+
+**Handoff Validation Checklist**:
+- [ ] JSON is syntactically valid
+- [ ] All slides have layout assignments
+- [ ] All charts have complete data specifications
+- [ ] Design system is fully defined
+- [ ] CoT reasoning documented for key decisions
+- [ ] CoD versions available for text elements
+- [ ] Traceability to Q-IDs and F-IDs maintained
+- [ ] Accessibility checks passed
+
+✓ Stage 4 Complete. Ready for Stage 5.

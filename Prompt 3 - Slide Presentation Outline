@@ -3,6 +3,44 @@
 
 ---
 
+# 🔗 PIPELINE INTEGRATION
+
+| Field | Value |
+|-------|-------|
+| **Stage** | 3 of 5 |
+| **Role** | Slide Presentation Outline |
+| **Input** | STAGE_2_HANDOFF package (from Prompt 2) OR standalone executive summary |
+| **Output** | Presentation Outline + STAGE_3_HANDOFF package |
+| **Previous Stage** | Prompt 2 - Executive Summary Creation |
+| **Next Stage** | Prompt 4 - Slide Design Specification |
+
+**Pipeline Context**: This prompt is Stage 3 of a 5-stage pipeline. When receiving a STAGE_2_HANDOFF package, use the structured metadata to inform presentation design. Output both the presentation outline AND the STAGE_3_HANDOFF package for Stage 4.
+
+**Standalone Use**: This prompt can also be used independently with any executive summary. If not part of a pipeline, the handoff package section can be omitted.
+
+## Pipeline Input Handling
+
+When input is a STAGE_2_HANDOFF package:
+
+1. **Use complexity indicator** — Adopt the recommended slide count from Stage 2
+2. **Inherit narrative elements** — Use the opening/closing strategies, core thesis, and narrative arc
+3. **Adopt branded concepts** — Use as section headers and slide titles where appropriate
+4. **Leverage statistics table** — Use visual potential recommendations for chart types
+5. **Honor confidence levels** — Add speaker note caveats for Low confidence claims: `[CONFIDENCE: LOW]`
+6. **Use abbreviation table** — Maintain consistent citation format in footnotes
+7. **Address Stage 3 flags** — Each flag should be reflected in presentation design
+8. **Preserve traceability** — Note F-ID and Q-Ref in slide Source fields
+
+**Citation format for pipeline**: `Source: [Abbrev, location] [F-ID ← Q-Ref]`
+
+**Confidence marking in speaker notes**:
+- High confidence: No special marking needed
+- Medium confidence: `[Note: Based on limited sources]`
+- Low confidence: `[CONFIDENCE: LOW - caveat this claim verbally]`
+- Speculative: `[INFERENCE - present as possibility, not fact]`
+
+---
+
 # RULES & CONSTRAINTS
 
 | Rule | Description |
@@ -569,7 +607,48 @@ List titles in sequence:
 
 # EXECUTIVE SUMMARY INPUT
 
-[Paste here]
+## If Input is STAGE_2_HANDOFF Package (Pipeline Mode)
+
+The input will be structured with these sections — use them as follows:
+
+| Handoff Section | How to Use in Presentation |
+|-----------------|---------------------------|
+| **Pipeline Metadata** | Note in opening footnote: "Based on research from [date]" |
+| **Inherited from Stage 1** | Carry data freshness to footnotes |
+| **Research Brief** | Context for governing thought validation |
+| **Findings Carried Forward** | Map to slides; note which are used |
+| **Branded Concepts** | Use as section headers / slide titles |
+| **Narrative Elements** | Core thesis → Governing thought; Opening/Closing → Slide strategies |
+| **Citation Abbreviation Table** | Use in footnotes consistently |
+| **Stakeholder Implications** | Map to Action slides |
+| **Statistics Highlighted** | Use Visual Potential column for chart recommendations |
+| **Confidence Summary** | Add speaker note caveats for Low/Speculative claims |
+| **Source Conflicts** | May need appendix slide if significant |
+| **Gaps Acknowledged** | Note in speaker notes where relevant |
+| **Flags for Stage 3** | Address each flag in presentation design |
+| **Complexity Indicator** | Use recommended slide count as target |
+| **Full Executive Summary** | Primary source for all content |
+
+**Sufficiency Check**: If the executive summary is marked "Insufficient" or has fewer than 3 synthesized claims:
+- Alert user that input is insufficient for presentation
+- Recommend returning to Stage 2 with additional research
+- Do NOT force a presentation from thin evidence
+
+## If Input is Standalone Executive Summary
+
+If NOT from the pipeline:
+- Extract governing thought from thesis
+- Create abbreviation table during Pass 1
+- Infer complexity from content density
+- Apply standard citation format: `Source: [Name, location]`
+
+---
+
+**Pipeline Mode**: The STAGE_2_HANDOFF package will be provided here, including the full executive summary.
+
+**Standalone Mode**: Paste executive summary here.
+
+[Input goes here]
 
 ---
 
@@ -589,4 +668,118 @@ List titles in sequence:
 
 Execute Passes 1–7. Output Presentation Outline, Appendix, Headline Sequence, then Process Notes.
 
+---
 
+# 📦 STAGE 3 HANDOFF PACKAGE
+
+**When executing as part of the pipeline**, after completing the presentation outline and process notes, output the following handoff package for Stage 4:
+
+```markdown
+<<<STAGE_3_HANDOFF>>>
+
+## Pipeline Metadata
+| Field | Value |
+|-------|-------|
+| Stage | 3 - Presentation Outline |
+| Executed | [Date/Time] |
+| Presentation Complexity | [Low / Medium / High] |
+| Main Slides | [#] |
+| Appendix Slides | [#] |
+| Framework | [Pyramid / SCR / Transformation / Countdown / Evidence Cascade] |
+| Duration | [15 / 20 / 30 min] |
+
+## Inherited from Previous Stages
+| Field | Value | Source |
+|-------|-------|--------|
+| Research Depth | [Brief/Standard/Comprehensive] | Stage 1 |
+| Data Freshness | [Date] | Stage 1 |
+| Summary Density | [Sparse/Moderate/Rich] | Stage 2 |
+| Core Thesis | [One sentence] | Stage 2 |
+
+## Research Brief (Original)
+[Carried forward from Stage 1 - verbatim]
+
+## Governing Thought
+> "[Single sentence ≤25 words capturing entire argument]"
+
+## Headline Sequence
+| Slide # | Title (Assertion) | Type | F-Refs |
+|---------|-------------------|------|--------|
+| 1 | [Title] | Setup | — |
+| 2 | [Title] | Evidence | F1 |
+| 3 | [Title] | Evidence | F2, F3 |
+| ... | ... | ... | ... |
+
+## Slide Inventory
+[Complete inventory of all slides with content details]
+| Slide # | Title | Type | Content Summary | Visual Type | Speaker Note Summary |
+|---------|-------|------|-----------------|-------------|---------------------|
+| 1 | [Title] | Setup | [2-3 bullets summary] | [Text/Chart/Image] | [Key speaking points] |
+| 2 | [Title] | Evidence | [2-3 bullets summary] | [Chart type] | [Key speaking points] |
+| ... | ... | ... | ... | ... | ... |
+
+## Visual Elements Specified
+| Slide # | Visual Type | Data Points | Recommended Chart |
+|---------|-------------|-------------|-------------------|
+| 3 | Data visualization | [Stats used] | Bar chart |
+| 5 | Comparison | [Entities compared] | Table |
+| 7 | Timeline | [Events] | Gantt/Timeline |
+
+## Appendix Slides
+| ID | Title | Trigger Question | Content Summary |
+|----|-------|------------------|-----------------|
+| A1 | [Title] | "[Question]" | [Summary] |
+| A2 | [Title] | "[Question]" | [Summary] |
+
+## Branded Concepts (Carried Forward)
+| Concept | Used in Slide # | As |
+|---------|-----------------|-----|
+| [Concept] | 4, 7 | Section header |
+
+## Confidence by Slide
+| Slide # | Claims | Confidence | Speaker Note Flag |
+|---------|--------|------------|-------------------|
+| 3 | [Claim summary] | High | None |
+| 5 | [Claim summary] | Low | [CONFIDENCE: LOW] |
+
+## Citation Abbreviation Table (Carried Forward)
+| Abbreviation | Full Name | Tier | Used in Slides |
+|--------------|-----------|------|----------------|
+| [Abbrev] | [Full name] | [1-4] | 2, 4, 7 |
+
+## Traceability Summary
+| Q-ID | F-ID | Summary Section | Slide # |
+|------|------|-----------------|---------|
+| Q1 | F1 | [Section] | 2, 3 |
+| Q1.2 | F2 | [Section] | 4 |
+
+## Flags for Stage 4
+[Recommendations for JSON specification and slide design]
+- [ ] [e.g., "Slide 3 needs bar chart with 4 data points - values: X, Y, Z, W"]
+- [ ] [e.g., "Slide 7 timeline spans 2020-2025 with 5 key events"]
+- [ ] [e.g., "Consider corporate blue theme for executive audience"]
+- [ ] [e.g., "Appendix A1 likely to be triggered - prepare detailed version"]
+- [ ] [e.g., "Slide 5 has low confidence - ensure speaker note caveat in JSON"]
+
+## Full Presentation Outline
+[The complete Stage 3 deliverable follows - all slides with full content, speaker notes, visual recommendations, and process notes]
+
+---
+
+[INSERT FULL PRESENTATION OUTLINE OUTPUT HERE]
+
+---
+
+<<<END_STAGE_3_HANDOFF>>>
+```
+
+**Handoff Validation Checklist**:
+- [ ] All slides listed with complete content
+- [ ] Headline sequence tells story independently
+- [ ] Visual types specified for data slides
+- [ ] Speaker notes include confidence flags where needed
+- [ ] Appendix slides have trigger questions
+- [ ] Traceability to F-IDs and Q-IDs maintained
+- [ ] Flags for Stage 4 include specific data for charts
+
+✓ Stage 3 Complete. Ready for Stage 4.

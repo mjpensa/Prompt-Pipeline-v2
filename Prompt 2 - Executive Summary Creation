@@ -2,6 +2,36 @@
 
 ---
 
+# 🔗 PIPELINE INTEGRATION
+
+| Field | Value |
+|-------|-------|
+| **Stage** | 2 of 5 |
+| **Role** | Executive Summary Synthesis |
+| **Input** | STAGE_1_HANDOFF package (from Prompt 1) OR standalone research documents |
+| **Output** | Executive Summary + STAGE_2_HANDOFF package |
+| **Previous Stage** | Prompt 1 - Deep Research |
+| **Next Stage** | Prompt 3 - Slide Presentation Outline |
+
+**Pipeline Context**: This prompt is Stage 2 of a 5-stage pipeline. When receiving a STAGE_1_HANDOFF package, use the structured metadata (Q-IDs, confidence levels, source tiers, conflicts, gaps) to inform the synthesis. Output both the executive summary AND the STAGE_2_HANDOFF package for Stage 3.
+
+**Standalone Use**: This prompt can also be used independently with any research documents. If not part of a pipeline, the handoff package section can be omitted.
+
+## Pipeline Input Handling
+
+When input is a STAGE_1_HANDOFF package:
+
+1. **Parse metadata first** — Extract Q-IDs, F-IDs, confidence levels, source tiers
+2. **Use abbreviation seeds** — Adopt the suggested abbreviations from Stage 1
+3. **Honor confidence inheritance** — Do not elevate confidence beyond source research
+4. **Surface all conflicts** — From the Conflicts Identified table
+5. **Acknowledge gaps** — From the Gaps & Limitations table
+6. **Note flags** — Address items in "Flags for Stage 2"
+
+**Citation format for pipeline input**: `[Research Report, F3]` or `[Research Report, F3 ← Q1.2]` for traceability
+
+---
+
 # RULES & CONSTRAINTS
 
 | Rule | Description |
@@ -541,11 +571,37 @@ If >12 months old: "*Based on research from [date]. Conditions may have evolved.
 
 # STRUCTURED RESEARCH INPUTS
 
-If sources are outputs from the Financial Services Research Prompt:
-- **Respect** confidence levels (High/Med/Low)
-- **Acknowledge** gaps from Appendix C
-- **Surface** conflicts from Appendix B
-- **Cite as**: `[Research Report, F3]`
+## If Input is STAGE_1_HANDOFF Package (Pipeline Mode)
+
+The input will be structured with these sections — use them as follows:
+
+| Handoff Section | How to Use |
+|-----------------|------------|
+| **Pipeline Metadata** | Note Research Depth; carry forward Data Freshness |
+| **Research Brief** | Reference for context; carry forward to Stage 3 |
+| **Research Questions Index** | Map findings to Q-IDs; note unanswered questions |
+| **Findings Summary** | Primary content for synthesis; respect confidence levels |
+| **Source Tier Summary** | Inform citation authority; flag Tier 3-4 reliance |
+| **Abbreviation Seed Table** | Adopt these abbreviations in citations |
+| **Key Statistics** | Prioritize for opening hooks and evidence |
+| **Named Entities** | Include in synthesis; define on first use |
+| **Conflicts Identified** | Must surface in summary; present both sides |
+| **Gaps & Limitations** | Acknowledge in summary; flag in Process Notes |
+| **Disconfirmation Notes** | Note in synthesis where contrary evidence exists |
+| **Flags for Stage 2** | Address each flag in synthesis approach |
+| **Full Research Document** | Primary source for all claims |
+
+**Confidence Inheritance Rule**: Summary cannot be more confident than source research. If a finding is marked "Low" confidence in the handoff, it remains "Low" in the summary.
+
+**Citation Format**: `[Research Report, F3]` or with traceability: `[Research Report, F3 ← Q1.2]`
+
+## If Input is Standalone Research Documents
+
+If sources are NOT from the pipeline (standalone use):
+- **Respect** confidence levels (High/Med/Low) if present
+- **Acknowledge** gaps from Appendix C if present
+- **Surface** conflicts from Appendix B if present
+- **Cite as**: `[ShortName, location]`
 
 Summary cannot be more confident than source research.
 
@@ -553,7 +609,11 @@ Summary cannot be more confident than source research.
 
 # RESEARCH DOCUMENTS
 
-[Paste or upload here]
+**Pipeline Mode**: The STAGE_1_HANDOFF package will be provided here, including the full research document.
+
+**Standalone Mode**: Paste or upload research documents here.
+
+[Input goes here]
 
 ---
 
@@ -573,3 +633,128 @@ Summary cannot be more confident than source research.
 
 Execute Passes 1–7. Output Executive Summary (or Research Gap Assessment), then Process Notes with pass labels.
 
+---
+
+# 📦 STAGE 2 HANDOFF PACKAGE
+
+**When executing as part of the pipeline**, after completing the executive summary and process notes, output the following handoff package for Stage 3:
+
+```markdown
+<<<STAGE_2_HANDOFF>>>
+
+## Pipeline Metadata
+| Field | Value |
+|-------|-------|
+| Stage | 2 - Executive Summary |
+| Executed | [Date/Time] |
+| Summary Density | [Sparse / Moderate / Rich] |
+| Word Count | [Actual word count] |
+| Sufficiency | [Sufficient / Marginal / Insufficient] |
+
+## Inherited from Stage 1
+| Field | Value |
+|-------|-------|
+| Research Depth | [from Stage 1 handoff] |
+| Data Freshness | [from Stage 1 handoff] |
+| Research Date | [from Stage 1 handoff] |
+
+## Research Brief (Original)
+[Carried forward from Stage 1 - verbatim]
+
+## Findings Carried Forward
+| F-ID | Finding | Q-Ref | Confidence | Used in Summary? | Summary Location |
+|------|---------|-------|------------|------------------|------------------|
+| F1 | [Title] | Q1 | High/Med/Low | ✅/❌ | [Section/paragraph] |
+| F2 | [Title] | Q1.2 | High/Med/Low | ✅/❌ | [Section/paragraph] |
+[Continue for all findings]
+
+## Branded Concepts Created
+| Concept | Source Evidence | Definition |
+|---------|-----------------|------------|
+| [Concept name] | [F-ID or data point it maps to] | [Brief definition for presentation use] |
+
+## Narrative Elements
+| Element | Content |
+|---------|---------|
+| Core Thesis | [Single sentence - ≤25 words] |
+| Opening Strategy | [Strategy name]: [First line of opening] |
+| Narrative Arc | [Pattern used: Transformation/Collision/Hidden/Countdown/Mosaic] |
+| Key Tension | [Primary conflict or "so what"] |
+| Closing Strategy | [Strategy name]: [Key closing statement] |
+
+## Citation Abbreviation Table
+| Abbreviation | Full Name | Tier | First Used |
+|--------------|-----------|------|------------|
+| [Abbrev] | [Full source name] | [1-4] | [Section] |
+
+## Stakeholder Implications
+| Stakeholder | Key Implication | Urgency | Action Required |
+|-------------|-----------------|---------|-----------------|
+| [Group] | [Implication] | High/Med/Low | [What they should do] |
+
+## Statistics Highlighted
+| Statistic | Value | Context | Visual Potential |
+|-----------|-------|---------|------------------|
+| [Description] | [Number] | [Why it matters] | [Chart type suggestion] |
+
+## Confidence Summary
+| Claim Category | Confidence | Notes |
+|----------------|------------|-------|
+| Regulatory status claims | [H/M/L] | [Any caveats] |
+| Market/industry data | [H/M/L] | [Any caveats] |
+| Projections/forecasts | [H/M/L] | [Any caveats] |
+| Competitive dynamics | [H/M/L] | [Any caveats] |
+
+## Source Conflicts Surfaced
+[Carried from Stage 1, with note on how each was handled in summary]
+| Topic | Conflict | How Addressed in Summary |
+|-------|----------|--------------------------|
+| [Topic] | [A vs B] | [Presented both / Resolved / Flagged] |
+
+*If none: "No material conflicts in source research."*
+
+## Gaps Acknowledged
+[Carried from Stage 1, with note on how each was handled]
+| Gap | Q-Ref | How Addressed |
+|-----|-------|---------------|
+| [Gap] | [Q-ID] | [Noted limitation / Worked around / Flagged] |
+
+## Flags for Stage 3
+[Recommendations and warnings for the presentation]
+- [ ] [e.g., "Opening statistic is strong visual - recommend leading slide"]
+- [ ] [e.g., "Branded concept 'X' should become section header"]
+- [ ] [e.g., "Stakeholder matrix suggests 3 distinct action items"]
+- [ ] [e.g., "Low confidence on projections - use speaker note caveat"]
+- [ ] [e.g., "Timeline data available - consider countdown framework"]
+
+## Complexity Indicator for Stage 3
+| Factor | Assessment |
+|--------|------------|
+| Distinct findings synthesized | [#] |
+| Stakeholder groups addressed | [#] |
+| Geographic scope | Single / Multi-jurisdiction |
+| Recommended presentation complexity | Low / Medium / High |
+| Suggested slide count | [8-10 / 10-12 / 12-15] |
+
+## Full Executive Summary
+[The complete Stage 2 deliverable - Executive Summary + Process Notes]
+
+---
+
+[INSERT FULL EXECUTIVE SUMMARY OUTPUT HERE]
+
+---
+
+<<<END_STAGE_2_HANDOFF>>>
+```
+
+**Handoff Validation Checklist**:
+- [ ] All F-IDs from Stage 1 noted with usage status
+- [ ] Branded concepts defined and sourced
+- [ ] Narrative elements fully specified
+- [ ] Abbreviation table complete
+- [ ] Confidence levels carried forward accurately
+- [ ] Conflicts and gaps addressed
+- [ ] Complexity indicator provided for Stage 3
+
+✓ Stage 2 Complete. Ready for Stage 3.
