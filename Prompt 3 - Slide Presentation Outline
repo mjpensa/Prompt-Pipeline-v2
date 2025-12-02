@@ -155,9 +155,18 @@ Senior executives. 15–30 minutes. Will interrupt. Want "so what" and "now what
 
 ### 1.2 Visualization Opportunities
 
-| Data Point | Visual Type | Action Title |
-|------------|-------------|--------------|
+| Data Point | Chart Type | Action Title |
+|------------|------------|--------------|
 | | | |
+
+**Chart Type Options** (aligned with P4/P5):
+- `bar_vertical` — Compare categories (≤8 items)
+- `bar_horizontal` — Rankings, long labels (≤10 items)
+- `line` — Trends over time (time-series)
+- `pie` — Proportions of whole (≤6 slices)
+- `donut` — Proportions with center metric
+- `table` — Detailed comparisons (structured data)
+- `timeline` — Chronological events
 
 ### 1.3 Narrative Arc
 
@@ -250,12 +259,17 @@ ONE sentence (≤25 words) capturing the entire argument:
 
 ### 3.1 Slide Types
 
-| Type | Purpose |
-|------|---------|
-| **Setup** | Context; orient audience |
-| **Evidence** | Data supporting argument; visual-led |
-| **Synthesis** | Interpret meaning; "so what" |
-| **Action** | WHO does WHAT by WHEN |
+**Use these types (aligned with P4 JSON schema):**
+
+| Type | Purpose | P4 JSON Value |
+|------|---------|---------------|
+| **Title** | Opening slide; centered title + subtitle | `title` |
+| **Section** | Section divider; transition between topics | `section` |
+| **Content** | Text-focused; bullets, paragraphs, callouts | `content` |
+| **Chart** | Data visualization-led; chart dominates | `chart` |
+| **Comparison** | Side-by-side analysis; two-column or table | `comparison` |
+| **Action** | Recommendations; WHO does WHAT by WHEN | `action` |
+| **Closing** | Final slide; callback or call-to-action | `closing` |
 
 ### 3.2 Block Allocation
 
@@ -264,64 +278,85 @@ ONE sentence (≤25 words) capturing the entire argument:
 **Pyramid:**
 | Block | Type | Slides | Flexible? |
 |-------|------|--------|-----------|
-| Opening | Setup | 1 | Fixed |
-| Recommendation | Action | 1 | Fixed |
-| Argument 1–3 | Evidence + Synthesis | 1–2 each | Merge/drop |
-| Implications | Synthesis | 1–2 | Merge |
-| Action | Action | 1 | Fixed |
-| Close | Synthesis | 1 | Fixed |
+| Opening | title | 1 | Fixed |
+| Recommendation | action | 1 | Fixed |
+| Argument 1–3 | content / chart | 1–2 each | Merge/drop |
+| Implications | content | 1–2 | Merge |
+| Action | action | 1 | Fixed |
+| Close | closing | 1 | Fixed |
 
 **SCR:**
 | Block | Type | Slides | Flexible? |
 |-------|------|--------|-----------|
-| Opening | Setup | 1 | Fixed |
-| Situation | Setup | 1–2 | Condense |
-| Complication | Evidence | 1–2 | Condense |
-| Resolution | Evidence + Synthesis | 2–3 | Scale |
-| Implications | Synthesis | 1–2 | Merge |
-| Action | Action | 1 | Fixed |
-| Close | Synthesis | 1 | Fixed |
+| Opening | title | 1 | Fixed |
+| Situation | section + content | 1–2 | Condense |
+| Complication | content / chart | 1–2 | Condense |
+| Resolution | content / chart | 2–3 | Scale |
+| Implications | content | 1–2 | Merge |
+| Action | action | 1 | Fixed |
+| Close | closing | 1 | Fixed |
 
 **Transformation:**
 | Block | Type | Slides | Flexible? |
 |-------|------|--------|-----------|
-| Opening | Setup | 1 | Fixed |
-| Old World | Setup + Evidence | 1–2 | Condense |
-| Disruption | Evidence | 1–2 | Scale |
-| New World | Evidence + Synthesis | 2–3 | Scale |
-| Imperatives | Action | 1 | Fixed |
-| Close | Synthesis | 1 | Fixed |
+| Opening | title | 1 | Fixed |
+| Old World | section + content | 1–2 | Condense |
+| Disruption | chart / content | 1–2 | Scale |
+| New World | content / chart | 2–3 | Scale |
+| Imperatives | action | 1 | Fixed |
+| Close | closing | 1 | Fixed |
 
 **Countdown:**
 | Block | Type | Slides | Flexible? |
 |-------|------|--------|-----------|
-| Opening | Setup | 1 | Fixed |
-| Stakes | Evidence | 1 | Fixed |
-| Deadline | Evidence | 1 | Fixed |
-| Ready/Not Ready | Evidence | 2–4 | Scale |
-| Reckoning | Synthesis | 1 | Merge |
-| Action | Action | 1 | Fixed |
-| Close | Synthesis | 1 | Fixed |
+| Opening | title | 1 | Fixed |
+| Stakes | chart / content | 1 | Fixed |
+| Deadline | content | 1 | Fixed |
+| Ready/Not Ready | comparison / chart | 2–4 | Scale |
+| Reckoning | content | 1 | Merge |
+| Action | action | 1 | Fixed |
+| Close | closing | 1 | Fixed |
 
 **Evidence Cascade:**
 | Block | Type | Slides | Flexible? |
 |-------|------|--------|-----------|
-| Opening | Setup | 1 | Fixed |
-| Foundation | Setup | 1–2 | Condense |
-| Layers 1–3 | Evidence | 1–2 each | Scale/drop |
-| Synthesis | Synthesis | 1 | Fixed |
-| Action | Action | 1 | Fixed |
-| Close | Synthesis | 1 | Fixed |
+| Opening | title | 1 | Fixed |
+| Foundation | section + content | 1–2 | Condense |
+| Layers 1–3 | chart / content | 1–2 each | Scale/drop |
+| Synthesis | content | 1 | Fixed |
+| Action | action | 1 | Fixed |
+| Close | closing | 1 | Fixed |
 
 **Planned count**: [#]
 
 ### 3.3 Slide Assignment
 
-| # | Title (Draft) | Type | Source (Summary Section/Finding) |
-|---|---------------|------|----------------------------------|
-| 1 | | | |
-| 2 | | | |
-| ... | | | |
+| # | Title (Draft) | Type | Layout Template | Content Blocks | Source |
+|---|---------------|------|-----------------|----------------|--------|
+| 1 | | title | title_centered | — | |
+| 2 | | | | | |
+| ... | | | | | |
+
+**Layout Template Options** (must match P4 schema):
+- `title_centered` — Opening slide, centered title + subtitle
+- `section_divider` — Section transition, large title only
+- `title_content` — Title + full-width bullets/text
+- `content_visual_split` — 60/40 split, text left, visual right
+- `visual_content_split` — 40/60 split, visual left, text right
+- `chart_focus` — Title + large chart area (80% height)
+- `two_column` — 50/50 split for comparisons
+- `three_column` — 33/33/33 split for multiple items
+- `callout_quote` — Large centered quote with attribution
+- `action_items` — Title + numbered action items
+- `appendix` — Smaller title, dense content
+
+**Content Block Types** (for P4 JSON generation):
+- `bullet_list` — Unordered list (3-5 bullets)
+- `numbered_list` — Ordered list (steps, rankings)
+- `paragraph` — Prose text block
+- `callout_box` — Highlighted insight or quote
+- `data_point` — Large number + label
+- `table` — Structured comparison grid
 
 ### 3.4 Transitions
 
@@ -339,6 +374,29 @@ ONE sentence (≤25 words) capturing the entire argument:
 | A | | "[Question]" |
 | B | | "[Question]" |
 
+### 3.6 Chart Data Specification
+
+**For each chart, provide structured data for P4/P5 generation:**
+
+| Slide # | Chart Type | Data Labels | Data Values | Series Name | Y-Axis Label |
+|---------|------------|-------------|-------------|-------------|--------------|
+| | bar_horizontal | ["Label A", "Label B", "Label C"] | [45, 32, 28] | "Revenue ($M)" | "Amount" |
+| | line | ["2020", "2021", "2022", "2023"] | [12, 18, 24, 31] | "Growth Rate" | "Percentage" |
+| | pie | ["Segment A", "Segment B", "Segment C"] | [55, 30, 15] | "Market Share" | — |
+
+**Multi-series charts**:
+```
+Slide #: [X]
+Chart Type: line (multi-series)
+X-Axis Labels: ["Q1", "Q2", "Q3", "Q4"]
+Series:
+  - Name: "Product A", Values: [10, 15, 12, 18]
+  - Name: "Product B", Values: [8, 12, 14, 16]
+Y-Axis Label: "Units Sold"
+```
+
+**Data extraction rule**: All values must come from the executive summary or Stage 1 research. If exact values are unavailable, note `[VALUE NEEDED]` and flag for user input.
+
 ---
 
 ## Pass 4: Draft
@@ -348,26 +406,47 @@ ONE sentence (≤25 words) capturing the entire argument:
 ---
 ## Slide [#]: [Assertion Title]
 
-**Type**: [Setup / Evidence / Synthesis / Action]
+**Type**: [title / section / content / chart / comparison / action / closing]
 
-**Content**:
-- [Bullet]
-- [Bullet]
-- [Bullet]
+**Layout Template**: [title_centered / section_divider / title_content / content_visual_split / visual_content_split / chart_focus / two_column / action_items / appendix]
 
-**Visual**: [Type: "Action Title"]
+**Content Blocks**:
+- [block_type]: [content]
+  - bullet_list: ["Item 1", "Item 2", "Item 3"]
+  - paragraph: "Full sentence text..."
+  - data_point: { value: "47%", label: "Market Share" }
+  - callout_box: "Key insight text..."
 
-**Footnotes**: [If applicable]
+**Visual Element** (if applicable):
+- Chart Type: [bar_vertical / bar_horizontal / line / pie / donut]
+- Chart Title: "[Action title - assertion, not label]"
+- Data: { labels: [...], values: [...], series_name: "..." }
+- Alt Text: "[Accessibility description]"
 
-**Speaker Notes**:
-- [TRANSITION]: [From previous]
-- [Content to deliver]
-- [KEY POINT / PAUSE / OBJECTION PREEMPT as needed]
-- [Bridge to next]
+**Footnotes**:
+- Source: "[Abbrev, location]"
+- Date caveat: "Data as of [date]"
+
+**Speaker Notes** (FULL text for PPTX export):
+```
+[TRANSITION]: [Bridge from previous slide - what connects these ideas]
+
+[Main talking points - write as you would speak, 3-5 sentences]:
+- Point 1: [Full sentence to speak]
+- Point 2: [Full sentence to speak]
+
+[KEY POINT]: [Emphasize this - slow down]
+
+[CONFIDENCE FLAG]: [If Low/Speculative: "Note that this projection is based on limited data..."]
+
+[OBJECTION PREEMPT]: [If anticipated pushback: "You may wonder about X—here's why..."]
+
+[Bridge to next]: [Transition phrase to next slide]
+```
 
 **GT Connection**: [How this supports governing thought]
 
-**Source**: [Summary section/finding]
+**Traceability**: F-IDs: [F1, F2] | Q-Refs: [Q1, Q1.2]
 ---
 ```
 
@@ -383,7 +462,7 @@ ONE sentence (≤25 words) capturing the entire argument:
 |-----------|-----|
 | Hooks immediately? | |
 | Logical progression? | |
-| Transitions explicit? | |
+| Transitions explicit in speaker notes? | |
 | Conclusion earned? | |
 
 ### 5.2 One-Idea Test
@@ -402,16 +481,16 @@ ONE sentence (≤25 words) capturing the entire argument:
 
 | Criterion | ✓/✗ |
 |-----------|-----|
-| Clear Action slide? | |
-| WHO/WHAT/WHEN? | |
+| Clear Action slide (type: action)? | |
+| WHO/WHAT/WHEN specified? | |
 | Urgency clear? | |
 
 ### 5.5 Headline Test
 
 List titles in sequence:
-1. 
-2. 
-3. 
+1.
+2.
+3.
 ...
 
 | Criterion | ✓/✗ |
@@ -432,6 +511,21 @@ List titles in sequence:
 
 **No clear connection → restructure, appendix, or cut.**
 
+### 5.7 P4/P5 Readiness Test (NEW)
+
+| Criterion | ✓/✗ |
+|-----------|-----|
+| All slide types use P4 vocabulary? (title/section/content/chart/comparison/action/closing) | |
+| Layout templates specified for all slides? | |
+| Content block types specified? (bullet_list/paragraph/data_point/callout_box/table) | |
+| Chart data includes labels, values, and series names? | |
+| Full speaker notes provided (not summaries)? | |
+| Alt text provided for all visual elements? | |
+| Confidence flags included in speaker notes for Low/Speculative claims? | |
+| Traceability (F-IDs, Q-Refs) maintained for all slides? | |
+
+**If any P4/P5 readiness checks fail, fix before proceeding to Pass 6.**
+
 ---
 
 ## Pass 6: Refine
@@ -450,16 +544,26 @@ List titles in sequence:
 - [ ] Headlines alone tell story
 
 **Speaker Notes**:
+- [ ] Full text provided (not summaries)
 - [ ] Say what to SPEAK
-- [ ] Pacing cues included
+- [ ] Pacing cues included ([TRANSITION], [KEY POINT], [PAUSE])
 - [ ] Transitions explicit
 - [ ] Objections preempted
+- [ ] Confidence flags for Low/Speculative claims
 
 **Footnotes & Visuals**:
-- [ ] Sources noted
+- [ ] Sources noted with abbreviations
 - [ ] Date caveats where needed
 - [ ] Visuals varied
 - [ ] Charts have action titles
+- [ ] Alt text for accessibility
+
+**P4/P5 Readiness**:
+- [ ] Slide types match P4 vocabulary
+- [ ] Layout templates specified
+- [ ] Content block types specified
+- [ ] Chart data tables complete (labels, values, series)
+- [ ] Traceability preserved (F-IDs, Q-Refs)
 
 ### 6.3 Count Check
 
@@ -494,24 +598,106 @@ List titles in sequence:
 
 ### Slide 1: [Assertion Title]
 
-**Type**: Setup
+**Type**: title
 
-**Content**:
-- [Bullet]
-- [Bullet]
+**Layout Template**: title_centered
 
-**Visual**: [Recommendation]
+**Content Blocks**:
+- paragraph: "[Subtitle or tagline]"
 
-**Footnotes**: [If applicable]
+**Visual Element**: —
+
+**Footnotes**: —
 
 **Speaker Notes**:
-- [TRANSITION]: [Opening/bridge]
-- [Content]
-- [Bridge to next]
+```
+[TRANSITION]: Welcome everyone. Today we'll explore...
 
-**GT Connection**: [Connection]
+[Main points]:
+- Set context for the presentation
+- Preview the key message
 
-**Source**: [Reference]
+[Bridge to next]: Let's begin by examining the current landscape...
+```
+
+**GT Connection**: [Establishes the central argument]
+
+**Traceability**: —
+
+---
+
+### Slide 2: [Assertion Title]
+
+**Type**: content
+
+**Layout Template**: title_content
+
+**Content Blocks**:
+- bullet_list: ["Point 1", "Point 2", "Point 3", "Point 4"]
+
+**Visual Element**: —
+
+**Footnotes**:
+- Source: [Abbrev, p.X]
+
+**Speaker Notes**:
+```
+[TRANSITION]: Building on this foundation...
+
+[Main points]:
+- Explain point 1 in detail
+- Connect point 2 to audience concerns
+- Emphasize point 3 as the critical insight
+
+[KEY POINT]: The third point is especially important because...
+
+[Bridge to next]: This leads us to examine the data...
+```
+
+**GT Connection**: [How this supports governing thought]
+
+**Traceability**: F-IDs: [F1] | Q-Refs: [Q1]
+
+---
+
+### Slide 3: [Assertion Title - Chart Slide]
+
+**Type**: chart
+
+**Layout Template**: chart_focus
+
+**Content Blocks**:
+- data_point: { value: "47%", label: "Key Metric" }
+
+**Visual Element**:
+- Chart Type: bar_horizontal
+- Chart Title: "[Assertion about what data shows]"
+- Data: { labels: ["A", "B", "C"], values: [45, 32, 28], series_name: "Revenue ($M)" }
+- Alt Text: "Horizontal bar chart showing A leads with $45M, followed by B at $32M and C at $28M"
+
+**Footnotes**:
+- Source: [Abbrev, p.X]
+- Date caveat: "Data as of Q3 2024"
+
+**Speaker Notes**:
+```
+[TRANSITION]: The data tells a compelling story...
+
+[Main points]:
+- Walk through the chart left to right
+- Highlight the key insight (A's dominance)
+- Explain why this matters for the audience
+
+[KEY POINT]: Notice that A captures nearly half the market...
+
+[CONFIDENCE FLAG]: [If applicable: "These figures are based on..."]
+
+[Bridge to next]: Given this landscape, what actions should we take?
+```
+
+**GT Connection**: [How this evidence supports governing thought]
+
+**Traceability**: F-IDs: [F2, F3] | Q-Refs: [Q1.2]
 
 ---
 
@@ -590,6 +776,17 @@ List titles in sequence:
 | Action | |
 | Headline | |
 | Red Thread | |
+| P4/P5 Readiness | |
+
+**P4/P5 Readiness Details**:
+- Slide types: ✓/✗
+- Layout templates: ✓/✗
+- Content block types: ✓/✗
+- Chart data complete: ✓/✗
+- Full speaker notes: ✓/✗
+- Alt text: ✓/✗
+- Confidence flags: ✓/✗
+- Traceability: ✓/✗
 
 ### Pass 6 – Refinements
 
@@ -705,25 +902,42 @@ Execute Passes 1–7. Output Presentation Outline, Appendix, Headline Sequence, 
 ## Headline Sequence
 | Slide # | Title (Assertion) | Type | F-Refs |
 |---------|-------------------|------|--------|
-| 1 | [Title] | Setup | — |
-| 2 | [Title] | Evidence | F1 |
-| 3 | [Title] | Evidence | F2, F3 |
+| 1 | [Title] | title | — |
+| 2 | [Title] | content | F1 |
+| 3 | [Title] | chart | F2, F3 |
 | ... | ... | ... | ... |
 
 ## Slide Inventory
 [Complete inventory of all slides with content details]
-| Slide # | Title | Type | Content Summary | Visual Type | Speaker Note Summary |
-|---------|-------|------|-----------------|-------------|---------------------|
-| 1 | [Title] | Setup | [2-3 bullets summary] | [Text/Chart/Image] | [Key speaking points] |
-| 2 | [Title] | Evidence | [2-3 bullets summary] | [Chart type] | [Key speaking points] |
+| Slide # | Title | Type | Layout Template | Content Blocks | Visual Type |
+|---------|-------|------|-----------------|----------------|-------------|
+| 1 | [Title] | title | title_centered | — | — |
+| 2 | [Title] | content | title_content | bullet_list (4 items) | — |
+| 3 | [Title] | chart | chart_focus | data_point | bar_horizontal |
 | ... | ... | ... | ... | ... | ... |
 
-## Visual Elements Specified
-| Slide # | Visual Type | Data Points | Recommended Chart |
-|---------|-------------|-------------|-------------------|
-| 3 | Data visualization | [Stats used] | Bar chart |
-| 5 | Comparison | [Entities compared] | Table |
-| 7 | Timeline | [Events] | Gantt/Timeline |
+## Chart Data Specifications
+[Structured data for P4/P5 chart generation]
+| Slide # | Chart Type | Data Labels | Data Values | Series Name |
+|---------|------------|-------------|-------------|-------------|
+| 3 | bar_horizontal | ["Label A", "Label B"] | [45, 32] | "Revenue ($M)" |
+| 5 | line | ["2020", "2021", "2022"] | [12, 18, 24] | "Growth %" |
+
+**Multi-series chart details** (if applicable):
+```
+Slide #: [X]
+Chart Type: [type]
+X-Axis Labels: [...]
+Series:
+  - Name: "...", Values: [...]
+  - Name: "...", Values: [...]
+```
+
+## Visual Accessibility
+| Slide # | Visual Element | Alt Text |
+|---------|----------------|----------|
+| 3 | Bar chart | [Description of what the chart shows for screen readers] |
+| 5 | Line chart | [Description] |
 
 ## Appendix Slides
 | ID | Title | Trigger Question | Content Summary |
@@ -740,7 +954,28 @@ Execute Passes 1–7. Output Presentation Outline, Appendix, Headline Sequence, 
 | Slide # | Claims | Confidence | Speaker Note Flag |
 |---------|--------|------------|-------------------|
 | 3 | [Claim summary] | High | None |
-| 5 | [Claim summary] | Low | [CONFIDENCE: LOW] |
+| 5 | [Claim summary] | Low | `[CONFIDENCE: LOW - caveat this claim verbally]` |
+| 7 | [Claim summary] | Medium | `[Note: Based on limited sources]` |
+
+## Speaker Notes (Full Text)
+[Full speaker notes for each slide, formatted for PPTX export]
+
+**Slide 1:**
+```
+[TRANSITION]: Welcome and opening...
+[Main points]: ...
+[Bridge to next]: ...
+```
+
+**Slide 2:**
+```
+[TRANSITION]: Building on...
+[Main points]: ...
+[KEY POINT]: ...
+[Bridge to next]: ...
+```
+
+[Continue for all slides...]
 
 ## Citation Abbreviation Table (Carried Forward)
 | Abbreviation | Full Name | Tier | Used in Slides |
@@ -755,11 +990,25 @@ Execute Passes 1–7. Output Presentation Outline, Appendix, Headline Sequence, 
 
 ## Flags for Stage 4
 [Recommendations for JSON specification and slide design]
-- [ ] [e.g., "Slide 3 needs bar chart with 4 data points - values: X, Y, Z, W"]
-- [ ] [e.g., "Slide 7 timeline spans 2020-2025 with 5 key events"]
-- [ ] [e.g., "Consider corporate blue theme for executive audience"]
-- [ ] [e.g., "Appendix A1 likely to be triggered - prepare detailed version"]
-- [ ] [e.g., "Slide 5 has low confidence - ensure speaker note caveat in JSON"]
+
+**Layout & Design:**
+- [ ] [e.g., "Consider corporate blue theme (#1E3A5F) for executive audience"]
+- [ ] [e.g., "Slide 3: Use content_visual_split layout - data left, chart right"]
+
+**Chart Data (P4/P5 Critical):**
+- [ ] [e.g., "Slide 3 bar chart: labels=['Q1','Q2','Q3','Q4'], values=[45,52,38,61]"]
+- [ ] [e.g., "Slide 7 timeline: 5 events spanning 2020-2025"]
+
+**Confidence & Caveats:**
+- [ ] [e.g., "Slide 5 LOW confidence - speaker note must include caveat"]
+- [ ] [e.g., "Slide 8 contains [INFERENCE] - flag in JSON speaker_notes.confidence_flags"]
+
+**Accessibility:**
+- [ ] [e.g., "Slide 3 chart alt text: 'Bar chart showing Q4 revenue highest at $61M'"]
+- [ ] [e.g., "Ensure color contrast ≥4.5:1 for all text"]
+
+**Appendix Preparation:**
+- [ ] [e.g., "Appendix A1 likely triggered by 'What about APAC?' - prepare detailed breakdown"]
 
 ## Full Presentation Outline
 [The complete Stage 3 deliverable follows - all slides with full content, speaker notes, visual recommendations, and process notes]
@@ -776,10 +1025,14 @@ Execute Passes 1–7. Output Presentation Outline, Appendix, Headline Sequence, 
 **Handoff Validation Checklist**:
 - [ ] All slides listed with complete content
 - [ ] Headline sequence tells story independently
-- [ ] Visual types specified for data slides
-- [ ] Speaker notes include confidence flags where needed
+- [ ] Slide types use P4 vocabulary (title/section/content/chart/comparison/action/closing)
+- [ ] Layout templates specified for each slide
+- [ ] Content block types specified (bullet_list/paragraph/data_point/callout_box/table)
+- [ ] Chart data tables populated with actual labels, values, and series names
+- [ ] Full speaker notes provided (not summaries) with confidence flags
+- [ ] Alt text provided for all visual elements (accessibility)
 - [ ] Appendix slides have trigger questions
 - [ ] Traceability to F-IDs and Q-IDs maintained
-- [ ] Flags for Stage 4 include specific data for charts
+- [ ] Flags for Stage 4 organized by category (Layout, Chart Data, Confidence, Accessibility)
 
 ✓ Stage 3 Complete. Ready for Stage 4.
