@@ -1,5 +1,5 @@
-# Slide Generation
-## Final Presentation Output
+# Slide Generation with React Artifact
+## Interactive Preview & PowerPoint Export
 
 ---
 
@@ -8,13 +8,13 @@
 | Field | Value |
 |-------|-------|
 | **Stage** | 5 of 5 (Final) |
-| **Role** | Slide Generation |
+| **Role** | React Artifact Generation with Live Preview & PPTX Export |
 | **Input** | STAGE_4_HANDOFF package (JSON specification) |
-| **Output** | Final Slide Presentation + FINAL_DELIVERABLES package |
+| **Output** | React Artifact (.jsx) + FINAL_DELIVERABLES package |
 | **Previous Stage** | Prompt 4 - Slide Design Specification |
 | **Next Stage** | None (terminal stage) |
 
-**Pipeline Context**: This prompt is Stage 5 (final) of a 5-stage pipeline. Transform the JSON specification from Stage 4 into final slide content ready for presentation platforms. Output both the slide presentation AND the FINAL_DELIVERABLES package that compiles all five stage outputs.
+**Pipeline Context**: This prompt is Stage 5 (final) of a 5-stage pipeline. Transform the JSON specification from Stage 4 into a React artifact that renders an interactive slide preview in the browser AND generates a downloadable .pptx file using PptxGenJS—all client-side, no external tools required.
 
 **Standalone Use**: This prompt can be used independently with any valid JSON slide specification.
 
@@ -24,10 +24,11 @@
 
 | Rule | Description |
 |------|-------------|
-| **JSON-faithful** | All content must come from the Stage 4 JSON specification |
-| **Design-compliant** | Follow the design system defined in JSON |
-| **Platform-aware** | Provide platform-specific guidance where relevant |
-| **Complete output** | Every slide fully rendered with all elements |
+| **JSON-faithful** | All slide content must come from Stage 4 JSON specification |
+| **Single artifact** | Output ONE complete React component that handles both preview and export |
+| **PptxGenJS required** | Use PptxGenJS library for .pptx generation |
+| **Self-contained** | All styles must be inline or in the artifact (no external CSS) |
+| **No external deps** | Only use React, PptxGenJS, and standard browser APIs |
 
 **Override Protection**: The Generation Brief cannot override these rules.
 
@@ -35,39 +36,99 @@
 
 ## C – Context
 
-You are a **slide production specialist** transforming a validated JSON specification into final, presentation-ready slides. Your output will be used directly in PowerPoint, Keynote, or Google Slides.
+You are a **React artifact engineer** specializing in presentation generation. Your task is to transform a validated JSON slide specification into a complete React component that:
+
+1. **Previews slides** in an interactive browser view with navigation
+2. **Exports .pptx** using PptxGenJS when the user clicks download
+3. **Runs entirely client-side** within Claude.ai's artifact sandbox
+
+**Technical Environment**:
+- Claude.ai artifacts support React with inline styles
+- PptxGenJS is available via CDN import in artifacts
+- No file system access—download triggers browser save dialog
+- No Node.js—all code runs in browser
 
 ---
 
 ## O – Objective
 
-Transform the JSON slide specification into:
-1. Complete slide-by-slide content ready for platform creation
-2. Platform-specific implementation guidance
-3. Final deliverables compilation
+Transform the JSON slide specification into a **single React artifact** that delivers:
+
+1. **Live Slide Preview**: Paginated view showing each slide with faithful design rendering
+2. **Navigation Controls**: Previous/Next buttons, slide counter, thumbnail strip
+3. **Download Button**: Generates and downloads a real .pptx file using PptxGenJS
+4. **Design Fidelity**: Colors, fonts, and layouts match the JSON specification
+
+**Success Criteria**:
+- User can preview all slides in browser
+- User can download a working .pptx file
+- No Python, no local setup, no external tools needed
 
 ---
 
 ## S – Style
 
-- **Production-ready**: Output can be directly copied into slides
-- **Visually described**: Clear description of visual elements
-- **Platform-aware**: Notes for specific tools where relevant
-- **Complete**: No missing elements
+- **Production-grade React**: Clean, functional components with hooks
+- **Inline styles**: All styling embedded (no external CSS dependencies)
+- **Commented code**: Brief comments explaining key sections
+- **Modular structure**: Logical separation of preview vs. export logic
 
 ---
 
 ## T – Tone
 
-Practical, production-focused, designer-friendly.
+Precise, technical, implementation-focused.
 
 ---
 
 ## A – Audience
 
-- Presenters creating slides in PowerPoint/Keynote/Google Slides
-- Designers implementing the slide deck
-- Automation tools consuming the output
+- **End users**: Executives, consultants viewing slides in Claude.ai
+- **Technical reviewers**: Developers who may modify the artifact
+- **Claude.ai runtime**: Must execute in artifact sandbox
+
+---
+
+# CHAIN OF THOUGHT (CoT) FRAMEWORK
+
+For each major design decision, document reasoning:
+
+```markdown
+### CoT: [Decision Point]
+
+**Context**: [What needs to be decided]
+
+**Options Considered**:
+1. [Option A]: [Pros/Cons]
+2. [Option B]: [Pros/Cons]
+3. [Option C]: [Pros/Cons]
+
+**Decision**: [Selected option]
+
+**Rationale**: [Why this best serves the goal]
+```
+
+**Required CoT Decisions**:
+1. Component architecture (single vs. multi-component)
+2. State management approach
+3. Slide rendering strategy
+4. PptxGenJS integration pattern
+5. Chart rendering approach
+6. Styling methodology
+
+---
+
+# CHAIN OF DENSITY (CoD) FRAMEWORK
+
+Apply 3-pass density refinement to artifact code:
+
+| Pass | Focus | Target |
+|------|-------|--------|
+| **Pass 1: Verbose** | Full implementation with extensive comments, verbose naming | Clarity |
+| **Pass 2: Standard** | Balanced code with essential comments | Readability |
+| **Pass 3: Dense** | Optimized code, minimal comments, concise naming | Performance |
+
+**Selection Criteria**: Use **Standard** density for final output (balances readability with size).
 
 ---
 
@@ -75,173 +136,473 @@ Practical, production-focused, designer-friendly.
 
 ---
 
-## Pass 1: JSON Parsing
+## Pass 1: JSON Analysis & Component Planning
 
-### 1.1 Validate JSON Input
-- [ ] JSON is syntactically valid
-- [ ] Required fields present
-- [ ] Design system complete
-- [ ] All slides defined
+### 1.1 Parse JSON Specification
 
-### 1.2 Extract Design System
-| Element | Value |
-|---------|-------|
-| Primary Color | |
-| Secondary Color | |
-| Accent Color | |
-| Title Font | |
-| Body Font | |
-| Layout Grid | |
+Extract from STAGE_4_HANDOFF:
 
-### 1.3 Slide Count Verification
-| Category | Count |
-|----------|-------|
-| Main slides | |
-| Appendix slides | |
-| Total | |
+| Element | Value | React Implication |
+|---------|-------|-------------------|
+| Slide count | [#] | Pagination state range |
+| Design system | [colors, fonts] | CSS variable definitions |
+| Layout templates used | [list] | Component variants needed |
+| Chart types | [list] | Chart rendering functions |
+| Image/icon count | [#] | Placeholder handling |
 
----
+### 1.2 Component Architecture (CoT Required)
 
-## Pass 2: Slide Generation
+```markdown
+### CoT: Component Architecture
 
-For EACH slide, generate:
+**Context**: Need to structure React artifact for preview + export
 
-### Slide Template
+**Options Considered**:
+1. Single monolithic component: All logic in one file
+   - Pros: Self-contained, no import issues
+   - Cons: Large, harder to read
+2. Multiple components in one artifact: Separate SlidePreview, Navigation, etc.
+   - Pros: Clean separation
+   - Cons: Artifact sandbox limitations
+3. Functional components with hooks: Clean, modern React
+   - Pros: Best practices, readable
+   - Cons: Requires useState/useEffect understanding
 
-```
-═══════════════════════════════════════════════════════════════════════════════
-SLIDE [#]: [Title]
-Type: [slide_type] | Template: [layout_template]
-═══════════════════════════════════════════════════════════════════════════════
+**Decision**: [Single artifact with internal functional components]
 
-[TITLE]
-[Slide title text - using selected density version]
-
-[CONTENT AREA]
-[Content blocks rendered as they should appear]
-
-• [Bullet 1]
-• [Bullet 2]
-• [Bullet 3]
-
-[VISUAL ELEMENT]
-┌─────────────────────────────────────────┐
-│ [Chart/Image/Diagram description]       │
-│                                         │
-│ [Data visualization details]            │
-│                                         │
-└─────────────────────────────────────────┘
-
-[FOOTER]
-Source: [citation] | [date] | Slide [#]
-
-───────────────────────────────────────────────────────────────────────────────
-SPEAKER NOTES:
-[Full speaker notes with delivery cues]
-[TRANSITION]: [Transition cue to next slide]
-[CONFIDENCE]: [Any confidence flags]
-───────────────────────────────────────────────────────────────────────────────
-
-PLATFORM NOTES:
-• PowerPoint: [Specific guidance]
-• Keynote: [Specific guidance]
-• Google Slides: [Specific guidance]
-
-DESIGN SPECS:
-• Background: [hex]
-• Title: [font, size, color]
-• Body: [font, size, color]
-
-═══════════════════════════════════════════════════════════════════════════════
+**Rationale**: Claude.ai artifacts work best with self-contained code. Internal component functions provide structure without import complexity.
 ```
 
----
+### 1.3 State Requirements
 
-## Pass 3: Platform Implementation Guide
-
-### 3.1 PowerPoint Implementation
-
-| Setting | Value |
-|---------|-------|
-| Slide Size | 16:9 Widescreen |
-| Theme Colors | [List custom colors to set] |
-| Theme Fonts | [Title font / Body font] |
-
-**Setup Steps**:
-1. [Step-by-step PowerPoint setup]
-
-### 3.2 Keynote Implementation
-
-| Setting | Value |
-|---------|-------|
-| Slide Size | [Dimensions] |
-| Theme | [Custom / Base theme] |
-
-**Setup Steps**:
-1. [Step-by-step Keynote setup]
-
-### 3.3 Google Slides Implementation
-
-| Setting | Value |
-|---------|-------|
-| Page Setup | 16:9 |
-| Theme Colors | [Custom palette] |
-
-**Setup Steps**:
-1. [Step-by-step Google Slides setup]
+| State Variable | Type | Purpose |
+|----------------|------|---------|
+| `currentSlide` | number | Active slide index |
+| `slides` | array | Parsed slide data |
+| `isGenerating` | boolean | Download in progress |
+| `designSystem` | object | Colors, fonts, layouts |
 
 ---
 
-## Pass 4: Quality Check
+## Pass 2: Design System Extraction
 
-### 4.1 Content Completeness
-- [ ] All [#] slides generated
-- [ ] All visual elements described
-- [ ] All speaker notes included
-- [ ] All sources cited
+### 2.1 Color Mapping
 
-### 4.2 Design Compliance
-- [ ] Colors match design system
-- [ ] Fonts match typography
-- [ ] Layouts match templates
+| JSON Field | CSS Variable | Hex Value |
+|------------|--------------|-----------|
+| primary_color | --color-primary | |
+| secondary_color | --color-secondary | |
+| accent_color | --color-accent | |
+| text_dark | --color-text | |
+| background_light | --color-bg | |
 
-### 4.3 Traceability Check
-- [ ] F-IDs preserved in slide metadata
-- [ ] Q-Refs preserved in slide metadata
-- [ ] Confidence flags in speaker notes
+### 2.2 Typography Mapping
+
+| JSON Field | CSS Property | Value |
+|------------|--------------|-------|
+| title_font | fontFamily (titles) | |
+| body_font | fontFamily (body) | |
+| title_size | fontSize (h1) | |
+| body_size | fontSize (p) | |
+
+### 2.3 Layout Constants
+
+```javascript
+const LAYOUT = {
+  slideWidth: 960,      // 16:9 at reasonable browser size
+  slideHeight: 540,
+  padding: 40,
+  titleHeight: 80,
+  contentArea: { top: 100, bottom: 60 }
+};
+```
+
+---
+
+## Pass 3: Slide Rendering Logic (CoT Required)
+
+### 3.1 Template Renderer Strategy
+
+```markdown
+### CoT: Slide Rendering Strategy
+
+**Context**: JSON has multiple layout templates (title_only, two_column, chart_focus, etc.)
+
+**Options Considered**:
+1. Switch statement: Render by template type
+   - Pros: Clear, explicit
+   - Cons: Long switch block
+2. Template components: Separate component per layout
+   - Pros: Clean separation
+   - Cons: More code
+3. Dynamic builder: Build from content_blocks array
+   - Pros: Flexible
+   - Cons: Complex positioning
+
+**Decision**: [Switch statement with inline rendering]
+
+**Rationale**: Explicit mapping ensures each template renders correctly. Limited template count (5-8) keeps switch manageable.
+```
+
+### 3.2 Template Rendering Functions
+
+| Template | Render Logic |
+|----------|--------------|
+| `title_only` | Centered title, subtitle below |
+| `title_content` | Title top, bullets below |
+| `two_column` | 50/50 split, content in each |
+| `chart_focus` | Title, large chart area, minimal text |
+| `comparison` | Title, side-by-side boxes |
+| `section_divider` | Centered section title, accent bg |
+| `appendix` | Smaller title, dense content |
+
+### 3.3 Content Block Renderer
+
+For each `content_block` type:
+
+| Type | React Rendering |
+|------|-----------------|
+| `bullet_list` | `<ul>` with styled `<li>` |
+| `numbered_list` | `<ol>` with styled `<li>` |
+| `paragraph` | `<p>` with body styling |
+| `callout_box` | Bordered `<div>` with accent |
+| `data_point` | Large number + label |
+
+---
+
+## Pass 4: Chart Rendering Strategy (CoT Required)
+
+### 4.1 Chart Approach Decision
+
+```markdown
+### CoT: Chart Rendering Approach
+
+**Context**: JSON specifies charts (bar, line, pie). Need to render in preview AND in PPTX.
+
+**Options Considered**:
+1. SVG generation: Hand-coded SVG for each chart type
+   - Pros: Full control, works in both preview and export
+   - Cons: Complex math, lots of code
+2. Chart library (Recharts/Chart.js): Use existing library
+   - Pros: Easy preview
+   - Cons: May not be available in artifact sandbox
+3. Simple visual approximation: Styled divs for bar charts, canvas for pie
+   - Pros: Lightweight
+   - Cons: Less accurate
+4. PptxGenJS native charts: Only render charts in export, use placeholder in preview
+   - Pros: PPTX charts are native Excel-linked
+   - Cons: Preview doesn't match export
+
+**Decision**: [SVG generation for preview + PptxGenJS native charts for export]
+
+**Rationale**: SVG gives accurate preview; PptxGenJS has native chart support that creates proper Excel-linked charts in the .pptx file.
+```
+
+### 4.2 SVG Chart Functions (for Preview)
+
+```javascript
+// Define chart generators for preview rendering
+const renderBarChart = (data, colors) => { /* SVG bars */ };
+const renderLineChart = (data, colors) => { /* SVG path */ };
+const renderPieChart = (data, colors) => { /* SVG arcs */ };
+const renderDonutChart = (data, colors) => { /* SVG arcs with center cut */ };
+```
+
+### 4.3 PptxGenJS Chart Mapping (for Export)
+
+| JSON Chart Type | PptxGenJS Method |
+|-----------------|------------------|
+| `bar_vertical` | `slide.addChart(pptx.ChartType.bar, ...)` |
+| `bar_horizontal` | `slide.addChart(pptx.ChartType.bar, {barDir: 'bar'})` |
+| `line` | `slide.addChart(pptx.ChartType.line, ...)` |
+| `pie` | `slide.addChart(pptx.ChartType.pie, ...)` |
+| `donut` | `slide.addChart(pptx.ChartType.doughnut, ...)` |
+
+---
+
+## Pass 5: PptxGenJS Integration (CoT Required)
+
+### 5.1 Library Integration Pattern
+
+```markdown
+### CoT: PptxGenJS Integration
+
+**Context**: Need to load PptxGenJS in Claude.ai artifact sandbox
+
+**Options Considered**:
+1. Import from CDN in artifact: `<script src="...">`
+   - Pros: Standard approach
+   - Cons: Artifact may not support external scripts
+2. Dynamic import: `import('https://cdn...')`
+   - Pros: Modern, async
+   - Cons: CORS issues possible
+3. Assume PptxGenJS is available globally: `window.PptxGenJS`
+   - Pros: Simple if available
+   - Cons: May not be pre-loaded
+4. Inline bundled version: Include minified PptxGenJS in artifact
+   - Pros: Guaranteed availability
+   - Cons: Large artifact size
+
+**Decision**: [Dynamic import with fallback error handling]
+
+**Rationale**: Claude.ai artifacts support dynamic imports from CDNs. Include error handling if import fails.
+```
+
+### 5.2 Export Function Structure
+
+```javascript
+const generatePptx = async (slides, designSystem) => {
+  // 1. Initialize PptxGenJS
+  const pptx = new PptxGenJS();
+
+  // 2. Set presentation properties
+  pptx.layout = 'LAYOUT_16x9';
+  pptx.title = designSystem.metadata.title;
+
+  // 3. Define master slide with design system
+  pptx.defineSlideMaster({
+    title: 'CUSTOM',
+    background: { color: designSystem.colors.background },
+    // ... font definitions
+  });
+
+  // 4. Generate each slide
+  slides.forEach(slideData => {
+    const slide = pptx.addSlide({ masterName: 'CUSTOM' });
+    // Add title, content, charts based on slideData
+  });
+
+  // 5. Trigger download
+  await pptx.writeFile({ fileName: 'presentation.pptx' });
+};
+```
+
+### 5.3 Slide Element Mapping
+
+| JSON Element | PptxGenJS Method |
+|--------------|------------------|
+| `title.text` | `slide.addText(title, {x, y, fontSize, bold: true})` |
+| `content_blocks[].bullet_list` | `slide.addText(bullets, {bullet: true})` |
+| `content_blocks[].paragraph` | `slide.addText(text, {x, y, w, h})` |
+| `visual_elements[].chart` | `slide.addChart(type, data, options)` |
+| `visual_elements[].image` | `slide.addImage({path, x, y, w, h})` |
+| `speaker_notes` | `slide.addNotes(text)` |
+
+---
+
+## Pass 6: React Artifact Generation (CoD Applied)
+
+### 6.1 Artifact Structure
+
+```jsx
+// === SLIDE PRESENTATION ARTIFACT ===
+// Generated from Stage 4 JSON Specification
+// Features: Live Preview + PPTX Download
+
+import React, { useState, useEffect } from 'react';
+
+export default function SlideDeck() {
+  // --- STATE ---
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  // --- DESIGN SYSTEM (from JSON) ---
+  const designSystem = { /* extracted from JSON */ };
+
+  // --- SLIDES DATA (from JSON) ---
+  const slides = [ /* parsed slide objects */ ];
+
+  // --- STYLES ---
+  const styles = { /* inline style objects */ };
+
+  // --- CHART RENDERERS ---
+  const renderChart = (chartData) => { /* SVG generation */ };
+
+  // --- PPTX EXPORT ---
+  const handleDownload = async () => { /* PptxGenJS logic */ };
+
+  // --- SLIDE RENDERER ---
+  const renderSlide = (slideData) => { /* template switch */ };
+
+  // --- MAIN RENDER ---
+  return (
+    <div style={styles.container}>
+      {/* Header with title and download button */}
+      {/* Slide preview area */}
+      {/* Navigation controls */}
+      {/* Thumbnail strip (optional) */}
+    </div>
+  );
+}
+```
+
+### 6.2 Code Density Selection
+
+| Section | Verbose Lines | Standard Lines | Dense Lines | Selected |
+|---------|---------------|----------------|-------------|----------|
+| State setup | 25 | 15 | 8 | Standard |
+| Design system | 40 | 25 | 15 | Standard |
+| Slide renderer | 150 | 100 | 60 | Standard |
+| Chart renderer | 200 | 120 | 70 | Standard |
+| PPTX export | 180 | 100 | 55 | Standard |
+| UI components | 100 | 60 | 35 | Standard |
+| **Total** | **695** | **420** | **243** | **Standard** |
+
+---
+
+## Pass 7: Validation & Testing
+
+### 7.1 Artifact Syntax Check
+
+| Check | Status |
+|-------|--------|
+| Valid JSX syntax | ✅/❌ |
+| All hooks imported | ✅/❌ |
+| No external dependencies | ✅/❌ |
+| All styles inline | ✅/❌ |
+| Export default present | ✅/❌ |
+
+### 7.2 Preview Functionality
+
+| Check | Status |
+|-------|--------|
+| All [#] slides render | ✅/❌ |
+| Navigation works | ✅/❌ |
+| Colors match design system | ✅/❌ |
+| Charts display correctly | ✅/❌ |
+| Responsive to container | ✅/❌ |
+
+### 7.3 Export Functionality
+
+| Check | Status |
+|-------|--------|
+| PptxGenJS loads | ✅/❌ |
+| Download triggers | ✅/❌ |
+| .pptx file valid | ✅/❌ |
+| All slides present | ✅/❌ |
+| Charts render in PowerPoint | ✅/❌ |
+| Speaker notes included | ✅/❌ |
+
+### 7.4 Content Integrity
+
+| Check | Status |
+|-------|--------|
+| All content from JSON | ✅/❌ |
+| No content added/removed | ✅/❌ |
+| Traceability preserved | ✅/❌ |
+| Confidence flags in notes | ✅/❌ |
 
 ---
 
 # OUTPUT FORMAT
 
-## Complete Slide Deck
+## Primary Output: React Artifact
 
-[All slides rendered in template format above]
+The main output is a **complete, executable React component** wrapped in an artifact code block:
 
-## Platform Quick-Start Guides
+~~~jsx
+// Artifact: slide-presentation
+// Description: Interactive slide deck with preview and PPTX download
 
-### PowerPoint Quick-Start
-[Condensed setup guide]
+import React, { useState } from 'react';
 
-### Keynote Quick-Start
-[Condensed setup guide]
+export default function SlideDeck() {
+  // [Complete implementation]
+}
+~~~
 
-### Google Slides Quick-Start
-[Condensed setup guide]
+## Secondary Outputs
 
-## Presenter Checklist
+### CoT Decision Log
 
-- [ ] Review all speaker notes
-- [ ] Test slide transitions
-- [ ] Verify data visualizations
-- [ ] Check source citations
-- [ ] Rehearse with timer
+| Decision Point | Selected Option | Key Rationale |
+|----------------|-----------------|---------------|
+| Component architecture | | |
+| Rendering strategy | | |
+| Chart approach | | |
+| PptxGenJS integration | | |
+
+### CoD Density Log
+
+| Section | Final Density | Line Count |
+|---------|---------------|------------|
+| | | |
+
+### Validation Report
+
+| Category | Checks | Passed |
+|----------|--------|--------|
+| Syntax | | |
+| Preview | | |
+| Export | | |
+| Content | | |
 
 ---
 
 # JSON SPECIFICATION INPUT
 
-**Pipeline Mode**: The STAGE_4_HANDOFF package will be provided here, including the complete JSON specification.
+## Pipeline Mode
+
+Use the STAGE_4_HANDOFF package from Stage 4, specifically:
+
+```markdown
+### Required from STAGE_4_HANDOFF:
+
+1. **JSON_SPECIFICATION**: The complete JSON object containing:
+   - `presentation.metadata`
+   - `presentation.design_system`
+   - `presentation.slides[]`
+
+2. **DESIGN_SYSTEM_SUMMARY**: Quick reference for colors/fonts
+
+3. **COT_DECISION_SUMMARY**: Design decisions to honor
+```
+
+## Standalone Mode
+
+Provide a valid JSON slide specification following this schema:
+
+```json
+{
+  "presentation": {
+    "metadata": {
+      "title": "string",
+      "subtitle": "string",
+      "author": "string",
+      "date": "string"
+    },
+    "design_system": {
+      "color_palette": {
+        "primary": "#hex",
+        "secondary": "#hex",
+        "accent": "#hex",
+        "text_dark": "#hex",
+        "text_light": "#hex",
+        "background": "#hex"
+      },
+      "typography": {
+        "title_font": "string",
+        "body_font": "string"
+      }
+    },
+    "slides": [
+      {
+        "slide_number": 1,
+        "type": "string",
+        "layout_template": "string",
+        "title": { "text": "string" },
+        "content_blocks": [],
+        "visual_elements": [],
+        "speaker_notes": { "text": "string" }
+      }
+    ]
+  }
+}
+```
+
+---
+
+**Pipeline Mode**: The STAGE_4_HANDOFF package will be provided here.
 
 **Standalone Mode**: Paste JSON specification here.
 
@@ -251,25 +612,31 @@ DESIGN SPECS:
 
 # GENERATION BRIEF (Optional)
 
-**Target Platform**: [PowerPoint / Keynote / Google Slides]
+**Presentation Title**: [Override title for download filename]
 
-**Export Format**: [PPTX / PDF / Both]
+**Color Theme Override**: [If different from JSON]
 
-**Animation Preference**: [None / Subtle / Full]
+**Export Filename**: [Default: presentation.pptx]
 
-**Handout Version**: [Yes / No]
+**Include Speaker Notes**: [Yes / No — default Yes]
+
+**Thumbnail Strip**: [Yes / No — default No]
 
 ---
 
 # BEGIN
 
-Execute Passes 1–4. Output complete slide deck, platform guides, and presenter checklist.
+Execute Passes 1–7. Output:
+1. Complete React artifact (primary deliverable)
+2. CoT Decision Log
+3. CoD Density Log
+4. Validation Report
 
 ---
 
 # 📦 FINAL DELIVERABLES PACKAGE
 
-**As the final stage of the pipeline**, after completing the slide generation, compile and output the following final deliverables package:
+**As the final stage of the pipeline**, after generating the React artifact, compile and output the following final deliverables package:
 
 ```markdown
 <<<FINAL_DELIVERABLES>>>
@@ -286,7 +653,7 @@ Execute Passes 1–4. Output complete slide deck, platform guides, and presenter
 | 2 - Executive Summary | ✅ Complete | [X] words, [Density] density |
 | 3 - Presentation Outline | ✅ Complete | [X] main slides + [Y] appendix |
 | 4 - Slide Design Spec | ✅ Complete | JSON v1.0, [X] layouts, [Y] charts |
-| 5 - Slide Generation | ✅ Complete | [Platform] format ready |
+| 5 - React Artifact | ✅ Complete | Preview + PPTX export ready |
 
 ## Cumulative Metadata
 | Field | Value |
@@ -299,6 +666,7 @@ Execute Passes 1–4. Output complete slide deck, platform guides, and presenter
 | Total Sources | [#] by tier: T1=[#], T2=[#], T3=[#], T4=[#] |
 | Data Freshness | [Date of most recent source] |
 | JSON Schema Version | 1.0 |
+| Artifact Type | React + PptxGenJS |
 | Pipeline Executed | [Date] |
 
 ---
@@ -344,8 +712,22 @@ Execute Passes 1–4. Output complete slide deck, platform guides, and presenter
 
 ---
 
-## DELIVERABLE 5: Final Slide Presentation
-[Complete slide deck output from this stage]
+## DELIVERABLE 5: React Artifact
+**The artifact above IS Deliverable 5**
+
+**Features**:
+- ✅ Live slide preview in browser
+- ✅ Navigation controls (prev/next, slide counter)
+- ✅ Download button generating real .pptx file
+- ✅ Design system faithfully rendered
+- ✅ Charts rendered (SVG preview, native PPTX charts)
+- ✅ Speaker notes included in export
+
+**Usage Instructions**:
+1. The artifact renders automatically in Claude.ai
+2. Use arrow buttons or keyboard to navigate slides
+3. Click "Download PPTX" to save presentation
+4. Open .pptx in PowerPoint, Keynote, or Google Slides
 
 ---
 
@@ -367,41 +749,26 @@ Execute Passes 1–4. Output complete slide deck, platform guides, and presenter
 
 ## APPENDIX: Full Traceability Matrix
 
-| Q-ID | F-ID | Confidence | Summary Section | Slide # | JSON Element |
-|------|------|------------|-----------------|---------|--------------|
-| Q1 | F1 | High | [Section] | 3 | slides[2] |
-| Q1.1 | F2 | Medium | [Section] | 4, 5 | slides[3], slides[4] |
-| Q1.2 | F3 | Low | [Section] | 6 | slides[5] |
-| Q2 | F4 | High | [Section] | 7 | slides[6] |
+| Q-ID | F-ID | Confidence | Summary Section | Slide # | JSON Element | Artifact Slide |
+|------|------|------------|-----------------|---------|--------------|----------------|
+| Q1 | F1 | High | [Section] | 3 | slides[2] | slides[2] |
+| Q1.1 | F2 | Medium | [Section] | 4, 5 | slides[3], slides[4] | slides[3], slides[4] |
 
 ---
 
 ## USAGE NOTES
 
-### For Raw Research (Deliverable 1)
-- Complete reference document with full source citations
-- Use for due diligence, detailed questions, or audit trail
-- Appendices contain methodology transparency
+### For React Artifact (Deliverable 5)
+- **Preview**: Artifact auto-renders in Claude.ai conversation
+- **Navigate**: Click arrows or use keyboard (←/→)
+- **Download**: Click button to generate .pptx
+- **Edit**: Copy artifact code to modify styling
+- **Compatibility**: .pptx works in PowerPoint 2016+, Keynote, Google Slides
 
-### For Executive Summary (Deliverable 2)
-- Standalone 2-4 page document for distribution
-- Can be shared without presentation
-- Process Notes can be removed for external distribution
-
-### For Presentation Outline (Deliverable 3)
-- Detailed slide-by-slide guide with speaker notes
-- Use for presentation preparation and rehearsal
-- Reference for design decisions
-
-### For JSON Specification (Deliverable 4)
-- Machine-readable format for slide generation tools
-- Can be imported into: Gamma, Beautiful.ai, custom automation
-- Contains all design decisions with CoT reasoning
-
-### For Final Presentation (Deliverable 5)
-- Ready-to-use slide content for PowerPoint/Keynote/Google Slides
-- Includes speaker notes and platform-specific guidance
-- All visual elements fully specified
+### Troubleshooting
+- If download fails, try refreshing the artifact
+- Charts may render slightly differently in PowerPoint vs preview
+- For custom fonts, install fonts on local system before opening .pptx
 
 ---
 
@@ -410,11 +777,11 @@ Execute Passes 1–4. Output complete slide deck, platform guides, and presenter
 
 ## Presenter Preparation Checklist
 - [ ] Review all 5 deliverables
-- [ ] Familiarize with research depth (Deliverable 1)
-- [ ] Internalize key messages (Deliverable 2)
-- [ ] Rehearse with outline (Deliverable 3)
-- [ ] Create slides from specification (Deliverable 4-5)
-- [ ] Practice with timer
+- [ ] Preview slides in artifact
+- [ ] Download .pptx file
+- [ ] Open in PowerPoint/Keynote and verify formatting
+- [ ] Review speaker notes
+- [ ] Rehearse with timer
 - [ ] Prepare for Q&A (Appendix slides)
 
 <<<END_FINAL_DELIVERABLES>>>
@@ -429,6 +796,11 @@ All five deliverables have been generated:
 2. **Executive Summary** — Synthesized narrative for senior stakeholders
 3. **Presentation Outline** — Detailed slide-by-slide structure
 4. **JSON Specification** — Machine-readable design specification
-5. **Final Slides** — Production-ready presentation content
+5. **React Artifact** — Interactive preview + downloadable .pptx
 
-The complete traceability matrix allows any claim in the final presentation to be traced back through the JSON specification, outline, summary, to the original research question and source.
+The user can now:
+- **Preview** slides directly in Claude.ai
+- **Download** a real PowerPoint file
+- **Present** using PowerPoint, Keynote, or Google Slides
+
+No Python. No local setup. Entire pipeline runs in Claude.ai.

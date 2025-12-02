@@ -282,7 +282,7 @@ Consumed by: `Prompt 4 - Slide Design Specification`
 # STAGE 4 HANDOFF PACKAGE
 
 Output by: `Prompt 4 - Slide Design Specification`
-Consumed by: `Prompt 5 - Slide Generation`
+Consumed by: `Prompt 5 - Slide Generation (React Artifact)`
 
 ```markdown
 <<<STAGE_4_HANDOFF>>>
@@ -372,8 +372,13 @@ Consumed by: `Prompt 5 - Slide Generation`
 
 # FINAL DELIVERABLES PACKAGE
 
-Output by: `Prompt 5 - Slide Generation`
+Output by: `Prompt 5 - Slide Generation (React Artifact)`
 This is the terminal output — no further handoff needed.
+
+**New in v2.1**: Stage 5 now outputs a React artifact that provides:
+- Live slide preview in Claude.ai browser
+- Download button generating real .pptx file via PptxGenJS
+- Entirely client-side — no Python, no local setup required
 
 ```markdown
 <<<FINAL_DELIVERABLES>>>
@@ -390,7 +395,7 @@ This is the terminal output — no further handoff needed.
 | 2 - Executive Summary | ✅ Complete | [X] words, [Density] density |
 | 3 - Presentation Outline | ✅ Complete | [X] main slides + [Y] appendix |
 | 4 - Slide Design Spec | ✅ Complete | JSON v1.0, [X] layouts |
-| 5 - Slide Generation | ✅ Complete | [Platform] format |
+| 5 - React Artifact | ✅ Complete | Preview + PPTX export ready |
 
 ## Cumulative Metadata
 | Field | Value |
@@ -448,8 +453,22 @@ This is the terminal output — no further handoff needed.
 
 ---
 
-## DELIVERABLE 5: Final Slide Presentation
-[Full Stage 5 output - complete slide content ready for platform]
+## DELIVERABLE 5: React Artifact
+**The artifact code IS Deliverable 5**
+
+**Features**:
+- ✅ Live slide preview in browser
+- ✅ Navigation controls (prev/next, slide counter)
+- ✅ Download button generating real .pptx file
+- ✅ Design system faithfully rendered
+- ✅ Charts rendered (SVG preview, native PPTX charts)
+- ✅ Speaker notes included in export
+
+**Usage Instructions**:
+1. The artifact renders automatically in Claude.ai
+2. Use arrow buttons or keyboard to navigate slides
+3. Click "Download PPTX" to save presentation
+4. Open .pptx in PowerPoint, Keynote, or Google Slides
 
 ---
 
@@ -493,9 +512,17 @@ This is the terminal output — no further handoff needed.
 - Machine-readable format for slide generation tools
 - Can be imported into: Gamma, Beautiful.ai, custom tools
 
-### For Final Presentation (Deliverable 5)
-- Ready-to-use slide content
-- Platform-specific formatting included
+### For React Artifact (Deliverable 5)
+- **Preview**: Artifact auto-renders in Claude.ai conversation
+- **Navigate**: Click arrows or use keyboard (←/→)
+- **Download**: Click button to generate .pptx
+- **Edit**: Copy artifact code to modify styling
+- **Compatibility**: .pptx works in PowerPoint 2016+, Keynote, Google Slides
+
+**Troubleshooting**:
+- If download fails, try refreshing the artifact
+- Charts may render slightly differently in PowerPoint vs preview
+- For custom fonts, install fonts on local system before opening .pptx
 
 ## Data Freshness Warning
 *Research conducted [date]. Data current as of [data freshness date]. For rapidly evolving topics, validate key statistics before presentation.*
@@ -618,7 +645,7 @@ Shows: Slide claim ← Summary finding ← Research question ← Original source
 | Gaps | Stage 1 | Stages 2, 3 (flagged) |
 | Data freshness | Stage 1 | Stages 2, 3, 4, 5 (footnotes) |
 | Governing thought | Stage 3 | Stages 4, 5 |
-| JSON specification | Stage 4 | Stage 5 |
+| JSON specification | Stage 4 | Stage 5 (embedded in React artifact) |
 
 ## Degradation Warnings
 

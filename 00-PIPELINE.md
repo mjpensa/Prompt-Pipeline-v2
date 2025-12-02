@@ -1,5 +1,5 @@
 # Financial Services Research Pipeline
-## Prompt Orchestrator v2.0
+## Prompt Orchestrator v2.1
 
 ---
 
@@ -10,13 +10,15 @@ This pipeline transforms a research topic into five polished deliverables throug
 ```
 ┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
 │   STAGE 1   │───▶│   STAGE 2   │───▶│   STAGE 3   │───▶│   STAGE 4   │───▶│   STAGE 5   │
-│   Research  │    │   Summary   │    │   Outline   │    │  JSON Spec  │    │   Slides    │
+│   Research  │    │   Summary   │    │   Outline   │    │  JSON Spec  │    │   Artifact  │
 └─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘
       │                  │                  │                  │                  │
       ▼                  ▼                  ▼                  ▼                  ▼
- Raw Research      Executive         Presentation       Slide Design        Final Slide
- (15-30 pages)   Summary (2-4p)    Outline (8-15)     JSON Structure      Presentation
+ Raw Research      Executive         Presentation       Slide Design       React Artifact
+ (15-30 pages)   Summary (2-4p)    Outline (8-15)     JSON Structure    (Preview + PPTX)
 ```
+
+**NEW in v2.1**: Stage 5 outputs a React artifact that renders in Claude.ai with live preview AND generates a downloadable .pptx file. No Python, no local setup — entire pipeline runs in Claude.ai.
 
 ---
 
@@ -67,7 +69,7 @@ When executing a stage:
 | `Prompt 2 - Executive Summary Creation` | Stage 2: Synthesis into executive summary |
 | `Prompt 3 - Slide Presentation Outline` | Stage 3: Transform into presentation outline |
 | `Prompt 4 - Slide Design Specification` | Stage 4: Generate JSON slide specifications |
-| `Prompt 5 - Slide Generation` | Stage 5: Create final slide presentation |
+| `Prompt 5 - Slide Generation` | Stage 5: Generate React artifact with preview + PPTX export |
 
 ---
 
@@ -165,25 +167,38 @@ When executing a stage:
 
 ---
 
-## Stage 5: Slide Generation
+## Stage 5: React Artifact Generation
 
 **File**: `Prompt 5 - Slide Generation`
 
 **Input**: STAGE_4_HANDOFF package (JSON specification + metadata)
 
-**Process**: Transform JSON into final slide content with platform-specific guidance
+**Process**: Multi-pass artifact generation (Passes 1-7) with Chain of Thought reasoning, Chain of Density optimization, and React/PptxGenJS code generation
 
 **Output**:
-- Final slide presentation content
-- Platform-specific instructions (PowerPoint/Keynote/Google Slides)
+- React artifact (.jsx) with live slide preview
+- Download button generating real .pptx file
 - FINAL_DELIVERABLES package (compiles all 5 stages)
+
+**Key Features**:
+- ✅ **Live Preview**: Slides render in Claude.ai browser
+- ✅ **Navigation**: Prev/Next buttons, slide counter
+- ✅ **Download**: Click to generate real .pptx file via PptxGenJS
+- ✅ **Charts**: SVG preview + native Excel-linked charts in PPTX
+- ✅ **Speaker Notes**: Included in exported .pptx
+- ✅ **No Local Setup**: Entirely client-side in Claude.ai
+
+**Advanced Techniques**:
+- **Chain of Thought (CoT)**: Explicit reasoning for component architecture, chart rendering, PptxGenJS integration
+- **Chain of Density (CoD)**: 3-pass code density optimization (verbose → standard → dense)
+- **Multi-pass validation**: Syntax checks, preview functionality, export verification
 
 **Final Deliverables**:
 1. Raw Research Document
 2. Executive Summary
 3. Presentation Outline
 4. JSON Slide Specification
-5. Final Slide Presentation
+5. React Artifact (preview + downloadable .pptx)
 
 ---
 
@@ -240,9 +255,10 @@ When user says "Proceed to P5":
 
 1. Read "Prompt 5 - Slide Generation"
 2. Use STAGE_4_HANDOFF as the input (already in context)
-3. Execute Stage 5
-4. Output the final slide presentation
-5. Compile and display FINAL_DELIVERABLES summary
+3. Execute Stage 5 with CoT/CoD techniques
+4. Output the React artifact (auto-renders in Claude.ai)
+5. User can preview slides and click "Download PPTX"
+6. Compile and display FINAL_DELIVERABLES summary
 
 ---
 
@@ -265,6 +281,7 @@ After Stage 5 completes, present all artifacts:
 | Presentation Complexity | [Low/Medium/High] |
 | Total Slides | [#] |
 | JSON Schema Version | [1.0] |
+| Artifact Type | React + PptxGenJS |
 
 ---
 
@@ -280,8 +297,20 @@ After Stage 5 completes, present all artifacts:
 ## Deliverable 4: JSON Slide Specification
 **Location**: See Stage 4 output above
 
-## Deliverable 5: Final Slide Presentation
-[Full Stage 5 output]
+## Deliverable 5: React Artifact
+**The artifact above IS Deliverable 5**
+
+**Features**:
+- ✅ Live slide preview in browser
+- ✅ Navigation controls (prev/next, slide counter)
+- ✅ Download button generating real .pptx file
+- ✅ Design system faithfully rendered
+- ✅ Speaker notes included in export
+
+**Usage**:
+1. Preview slides directly in Claude.ai
+2. Click "Download PPTX" to save presentation
+3. Open .pptx in PowerPoint, Keynote, or Google Slides
 
 ---
 
@@ -289,7 +318,7 @@ After Stage 5 completes, present all artifacts:
 [Consolidated sources from all stages with tier classifications]
 
 ## Appendix: Traceability Matrix
-[Q-ID → Finding → Summary → Slide → JSON Element mapping]
+[Q-ID → Finding → Summary → Slide → JSON Element → Artifact mapping]
 ```
 
 ---
@@ -323,7 +352,7 @@ Throughout the pipeline session, maintain:
 2. **All stage outputs** — Full deliverables, not just handoffs
 3. **Cumulative metadata** — Q-IDs, confidence levels, source tiers
 4. **Abbreviation table** — Created in P2, used in P3-P5
-5. **JSON specification** — From P4, used in P5
+5. **JSON specification** — From P4, embedded in P5 React artifact
 6. **Flags and warnings** — From any stage
 
 ## Context Priority (if approaching limits)
