@@ -37,7 +37,13 @@ When input is a STAGE_2_HANDOFF package:
 - High confidence: No special marking needed
 - Medium confidence: `[Note: Based on limited sources]`
 - Low confidence: `[CONFIDENCE: LOW - caveat this claim verbally]`
-- Speculative: `[INFERENCE - present as possibility, not fact]`
+- Speculative: `[SPECULATIVE - present as possibility, not fact; consider moving to appendix]`
+
+**Speculative content handling**:
+- Speculative claims should generally be moved to appendix slides
+- If retained in main deck, must have explicit verbal caveat
+- Never present speculative content as established fact
+- Consider prefacing with "Early indicators suggest..." or "One possible interpretation..."
 
 ---
 
@@ -159,14 +165,17 @@ Senior executives. 15–30 minutes. Will interrupt. Want "so what" and "now what
 |------------|------------|--------------|
 | | | |
 
-**Chart Type Options** (aligned with P4/P5):
-- `bar_vertical` — Compare categories (≤8 items)
-- `bar_horizontal` — Rankings, long labels (≤10 items)
-- `line` — Trends over time (time-series)
-- `pie` — Proportions of whole (≤6 slices)
-- `donut` — Proportions with center metric
-- `table` — Detailed comparisons (structured data)
-- `timeline` — Chronological events
+**Visual Type → Chart Type Mapping** (for Stage 4 handoff):
+| Visual Type (P3) | Recommended Chart Types (P4) | Best When |
+|------------------|------------------------------|-----------|
+| Data visualization | `bar_vertical`, `bar_horizontal` | Comparing discrete categories |
+| Trend/Change | `line`, `area` | Showing change over time |
+| Comparison | `bar_horizontal`, `table` | Ranking or side-by-side comparison |
+| Proportion/Share | `pie`, `donut`, `stacked_bar` | Part-to-whole relationships |
+| Timeline | `timeline`, `gantt` | Sequential events with dates |
+| Relationship | `scatter`, `bubble` | Correlation between variables |
+| Process/Flow | `diagram`, `flowchart` | Steps or decision trees |
+| Geographic | `map`, `choropleth` | Location-based data |
 
 ### 1.3 Narrative Arc
 

@@ -162,7 +162,9 @@
     "appendix_slides": [
       {
         "appendix_id": "string (A1, A2)",
+        "title": "string",
         "trigger_question": "string",
+        "layout_template": "string (appendix)",
         "content": {}
       }
     ]
