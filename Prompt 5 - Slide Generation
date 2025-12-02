@@ -310,21 +310,23 @@ const LAYOUT = {
 
 ### 3.2 Template Rendering Functions
 
-**Template names must match P4 output exactly:**
+**Template names must match P4 output exactly (all 11 templates):**
 
-| Template (from P4) | Render Logic |
-|-------------------|--------------|
-| `title_centered` | Centered title, subtitle below, primary bg |
-| `title_content` | Title top, bullets/content below |
-| `content_visual_split` | 60/40 split, text left, visual right |
-| `visual_content_split` | 40/60 split, visual left, text right |
-| `chart_focus` | Title, large chart area (80% height) |
-| `two_column` | 50/50 split, content in each |
-| `three_column` | 33/33/33 split, three content areas |
-| `callout_quote` | Large centered quote with attribution |
-| `section_divider` | Centered section title, accent bg |
-| `action_items` | Title + numbered action items |
-| `appendix` | Smaller title, dense content, gray bg |
+| Template (from P4) | Render Logic | PPTX Equivalent |
+|-------------------|--------------|-----------------|
+| `title_centered` | Centered title, subtitle below, primary bg | Title Slide |
+| `section_divider` | Centered section title, accent bg | Section Header |
+| `title_content` | Title top, bullets/content below | Title and Content |
+| `content_visual_split` | 60/40 split, text left, visual right | Two Content |
+| `visual_content_split` | 40/60 split, visual left, text right | Two Content (reversed) |
+| `chart_focus` | Title, large chart area (80% height) | Title and Content |
+| `two_column` | 50/50 split, content in each | Two Content |
+| `three_column` | 33/33/33 split, three content areas | Three Content |
+| `callout_quote` | Large centered quote with attribution | Quote Slide |
+| `action_items` | Title + numbered action items | Title and Content |
+| `appendix` | Smaller title, dense content, gray bg | Content Only |
+
+**Accessibility requirement**: For each visual element, include `alt_text` from P4's JSON in both preview (as `aria-label`) and PPTX export (as image alt text).
 
 ### 3.3 Content Block Renderer
 
@@ -775,7 +777,7 @@ Provide a valid JSON slide specification following P4's output schema:
         "slide_number": 1,
         "slide_id": "S1",
         "type": "string (title|section|content|chart|comparison|action|closing)",
-        "layout_template": "string (title_centered|title_content|content_visual_split|chart_focus|two_column|section_divider|action_items|appendix)",
+        "layout_template": "string (title_centered|section_divider|title_content|content_visual_split|visual_content_split|chart_focus|two_column|three_column|callout_quote|action_items|appendix)",
         "title": {
           "text": "string",
           "density_versions": {
@@ -801,9 +803,13 @@ Provide a valid JSON slide specification following P4's output schema:
             "type": "string (chart|image|icon)",
             "chart_spec": {
               "chart_type": "bar_vertical|bar_horizontal|line|pie|donut",
-              "data": {},
+              "data": {
+                "labels": ["array"],
+                "series": [{"name": "string", "values": ["array"]}]
+              },
               "colors": []
-            }
+            },
+            "alt_text": "string (accessibility description)"
           }
         ],
         "speaker_notes": {
