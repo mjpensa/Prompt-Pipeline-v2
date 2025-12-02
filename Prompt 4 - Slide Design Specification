@@ -83,7 +83,8 @@
         "body_font": "string",
         "body_size": "number (pt)",
         "caption_font": "string",
-        "caption_size": "number (pt)"
+        "caption_size": "number (pt)",
+        "font_fallback": ["array of web-safe fallback fonts"]
       },
       "layout": {
         "grid_system": "string (12-column|16:9|4:3)",
@@ -159,7 +160,9 @@
     "appendix_slides": [
       {
         "appendix_id": "string (A1, A2)",
+        "title": "string",
         "trigger_question": "string",
+        "layout_template": "string (appendix)",
         "content": {}
       }
     ]
