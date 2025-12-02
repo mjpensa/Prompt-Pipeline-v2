@@ -3,6 +3,44 @@
 
 ---
 
+# 🔗 PIPELINE INTEGRATION
+
+| Field | Value |
+|-------|-------|
+| **Stage** | 3 of 3 (Final) |
+| **Role** | Slide Presentation Outline |
+| **Input** | STAGE_2_HANDOFF package (from Prompt 2) OR standalone executive summary |
+| **Output** | Presentation Outline + FINAL_DELIVERABLES package |
+| **Previous Stage** | Prompt 2 - Executive Summary Creation |
+| **Next Stage** | None (terminal stage) |
+
+**Pipeline Context**: This prompt is Stage 3 (final) of a 3-stage pipeline. When receiving a STAGE_2_HANDOFF package, use the structured metadata to inform presentation design. Output both the presentation outline AND the FINAL_DELIVERABLES package that compiles all three stage outputs.
+
+**Standalone Use**: This prompt can also be used independently with any executive summary. If not part of a pipeline, the final deliverables compilation can be omitted.
+
+## Pipeline Input Handling
+
+When input is a STAGE_2_HANDOFF package:
+
+1. **Use complexity indicator** — Adopt the recommended slide count from Stage 2
+2. **Inherit narrative elements** — Use the opening/closing strategies, core thesis, and narrative arc
+3. **Adopt branded concepts** — Use as section headers and slide titles where appropriate
+4. **Leverage statistics table** — Use visual potential recommendations for chart types
+5. **Honor confidence levels** — Add speaker note caveats for Low confidence claims: `[CONFIDENCE: LOW]`
+6. **Use abbreviation table** — Maintain consistent citation format in footnotes
+7. **Address Stage 3 flags** — Each flag should be reflected in presentation design
+8. **Preserve traceability** — Note F-ID and Q-Ref in slide Source fields
+
+**Citation format for pipeline**: `Source: [Abbrev, location] [F-ID ← Q-Ref]`
+
+**Confidence marking in speaker notes**:
+- High confidence: No special marking needed
+- Medium confidence: `[Note: Based on limited sources]`
+- Low confidence: `[CONFIDENCE: LOW - caveat this claim verbally]`
+- Speculative: `[INFERENCE - present as possibility, not fact]`
+
+---
+
 # RULES & CONSTRAINTS
 
 | Rule | Description |
@@ -569,7 +607,48 @@ List titles in sequence:
 
 # EXECUTIVE SUMMARY INPUT
 
-[Paste here]
+## If Input is STAGE_2_HANDOFF Package (Pipeline Mode)
+
+The input will be structured with these sections — use them as follows:
+
+| Handoff Section | How to Use in Presentation |
+|-----------------|---------------------------|
+| **Pipeline Metadata** | Note in opening footnote: "Based on research from [date]" |
+| **Inherited from Stage 1** | Carry data freshness to footnotes |
+| **Research Brief** | Context for governing thought validation |
+| **Findings Carried Forward** | Map to slides; note which are used |
+| **Branded Concepts** | Use as section headers / slide titles |
+| **Narrative Elements** | Core thesis → Governing thought; Opening/Closing → Slide strategies |
+| **Citation Abbreviation Table** | Use in footnotes consistently |
+| **Stakeholder Implications** | Map to Action slides |
+| **Statistics Highlighted** | Use Visual Potential column for chart recommendations |
+| **Confidence Summary** | Add speaker note caveats for Low/Speculative claims |
+| **Source Conflicts** | May need appendix slide if significant |
+| **Gaps Acknowledged** | Note in speaker notes where relevant |
+| **Flags for Stage 3** | Address each flag in presentation design |
+| **Complexity Indicator** | Use recommended slide count as target |
+| **Full Executive Summary** | Primary source for all content |
+
+**Sufficiency Check**: If the executive summary is marked "Insufficient" or has fewer than 3 synthesized claims:
+- Alert user that input is insufficient for presentation
+- Recommend returning to Stage 2 with additional research
+- Do NOT force a presentation from thin evidence
+
+## If Input is Standalone Executive Summary
+
+If NOT from the pipeline:
+- Extract governing thought from thesis
+- Create abbreviation table during Pass 1
+- Infer complexity from content density
+- Apply standard citation format: `Source: [Name, location]`
+
+---
+
+**Pipeline Mode**: The STAGE_2_HANDOFF package will be provided here, including the full executive summary.
+
+**Standalone Mode**: Paste executive summary here.
+
+[Input goes here]
 
 ---
 
@@ -589,4 +668,188 @@ List titles in sequence:
 
 Execute Passes 1–7. Output Presentation Outline, Appendix, Headline Sequence, then Process Notes.
 
+---
 
+# 📦 FINAL DELIVERABLES PACKAGE
+
+**When executing as part of the pipeline**, after completing the presentation outline and process notes, compile and output the following final deliverables package:
+
+```markdown
+<<<FINAL_DELIVERABLES>>>
+
+# PIPELINE COMPLETE
+
+## Research Topic
+[Original research brief - carried through all stages]
+
+## Pipeline Execution Summary
+| Stage | Status | Key Metrics |
+|-------|--------|-------------|
+| 1 - Deep Research | ✅ Complete | [X] findings, [Y] sources across [Z] tiers |
+| 2 - Executive Summary | ✅ Complete | [X] words, [Density] density |
+| 3 - Presentation | ✅ Complete | [X] main slides + [Y] appendix |
+
+## Cumulative Metadata
+| Field | Value |
+|-------|-------|
+| Research Depth | [Brief/Standard/Comprehensive] |
+| Summary Density | [Sparse/Moderate/Rich] |
+| Presentation Complexity | [Low/Medium/High] |
+| Total Research Questions | [#] |
+| Total Findings | [#] |
+| Total Sources | [#] by tier: T1=[#], T2=[#], T3=[#], T4=[#] |
+| Data Freshness | [Date of most recent source] |
+| Pipeline Executed | [Date] |
+
+---
+
+# DELIVERABLE 1: Raw Research
+
+## Research Overview
+| Field | Value |
+|-------|-------|
+| Depth | [Brief/Standard/Comprehensive] |
+| Research Questions | [#] primary, [#] sub-questions |
+| Findings | [#] with confidence breakdown |
+| Pages (approx) | [#] |
+
+## Full Research Document
+
+---
+
+[INSERT COMPLETE STAGE 1 OUTPUT HERE - All sections and appendices]
+
+---
+
+# DELIVERABLE 2: Executive Summary
+
+## Summary Overview
+| Field | Value |
+|-------|-------|
+| Density | [Sparse/Moderate/Rich] |
+| Word Count | [#] |
+| Narrative Arc | [Pattern used] |
+| Branded Concepts | [List] |
+
+## Full Executive Summary
+
+---
+
+[INSERT COMPLETE STAGE 2 EXECUTIVE SUMMARY HERE - Summary only, Process Notes optional]
+
+---
+
+# DELIVERABLE 3: Slide Presentation Outline
+
+## Presentation Overview
+| Field | Value |
+|-------|-------|
+| Complexity | [Low/Medium/High] |
+| Main Slides | [#] |
+| Appendix Slides | [#] |
+| Framework | [Pyramid/SCR/Transformation/Countdown/Evidence Cascade] |
+| Duration | [15/20/30 min] |
+
+## Governing Thought
+> "[The single sentence governing thought]"
+
+## Headline Sequence
+1. [Slide 1 title]
+2. [Slide 2 title]
+3. [Slide 3 title]
+...
+[Continue for all slides]
+
+## Full Presentation Outline
+
+---
+
+[INSERT COMPLETE STAGE 3 OUTPUT HERE - All slides, appendix, headline sequence]
+
+---
+
+# APPENDIX: Master Source List
+
+## Sources by Tier
+
+**Tier 1 (Regulatory/Official)**:
+| Abbreviation | Full Name | Used In |
+|--------------|-----------|---------|
+| [Abbrev] | [Full name with URL if available] | P1, P2, P3 |
+
+**Tier 2 (International Orgs/Big 4)**:
+| Abbreviation | Full Name | Used In |
+|--------------|-----------|---------|
+| [Abbrev] | [Full name] | P1, P2 |
+
+**Tier 3 (Industry/Academic)**:
+| Abbreviation | Full Name | Used In |
+|--------------|-----------|---------|
+| [Abbrev] | [Full name] | P1 |
+
+**Tier 4 (Quality Media)**:
+| Abbreviation | Full Name | Used In |
+|--------------|-----------|---------|
+| [Abbrev] | [Full name] | P1 |
+
+---
+
+# TRACEABILITY MATRIX
+
+## Research Question → Finding → Summary → Slide
+
+| Q-ID | Finding (F-ID) | Confidence | Summary Section | Slide # |
+|------|----------------|------------|-----------------|---------|
+| Q1 | F1 | High | [Section] | 3 |
+| Q1.1 | F2 | Medium | [Section] | 4, 5 |
+| Q1.2 | F3 | Low | [Section] | 6 |
+| Q2 | F4 | High | [Section] | 7 |
+[Continue for all Q-IDs]
+
+## Gaps and Limitations Carried Through
+
+| Gap (from Stage 1) | Addressed in Summary? | Noted in Presentation? |
+|--------------------|----------------------|------------------------|
+| [Gap description] | [Yes/No - how] | [Yes/No - which slide] |
+
+## Conflicts Carried Through
+
+| Conflict (from Stage 1) | Addressed in Summary? | Noted in Presentation? |
+|------------------------|----------------------|------------------------|
+| [Conflict description] | [Yes/No - how] | [Yes/No - which slide] |
+
+---
+
+# USAGE NOTES
+
+## For the Research Document (Deliverable 1)
+- Complete reference document with full source citations
+- Use for due diligence, detailed questions, or audit trail
+- Appendices contain methodology transparency
+
+## For the Executive Summary (Deliverable 2)
+- Standalone 2-4 page document for distribution
+- Can be shared without presentation
+- Process Notes can be removed for external distribution
+
+## For the Presentation (Deliverable 3)
+- Slide-by-slide outline ready for PowerPoint/Keynote creation
+- Speaker notes provide delivery guidance
+- Appendix slides ready for Q&A backup
+
+## Data Freshness Warning
+*Research conducted [date]. Data current as of [data freshness date]. For rapidly evolving topics, validate key statistics before presentation.*
+
+<<<END_FINAL_DELIVERABLES>>>
+```
+
+---
+
+# ✓ PIPELINE COMPLETE
+
+All three deliverables have been generated:
+1. **Raw Research** — Comprehensive analysis with full source documentation
+2. **Executive Summary** — Synthesized narrative for senior stakeholders
+3. **Slide Presentation Outline** — Ready for slide creation
+
+The traceability matrix allows any claim in the presentation to be traced back through the summary to the original research question and source.

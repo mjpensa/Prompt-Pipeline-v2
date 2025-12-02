@@ -2,6 +2,22 @@
 
 ---
 
+# 🔗 PIPELINE INTEGRATION
+
+| Field | Value |
+|-------|-------|
+| **Stage** | 1 of 3 |
+| **Role** | Deep Research |
+| **Input** | Research Brief (from user or pipeline orchestrator) |
+| **Output** | Full research document + STAGE_1_HANDOFF package |
+| **Next Stage** | Prompt 2 - Executive Summary Creation |
+
+**Pipeline Context**: This prompt is Stage 1 of a 3-stage pipeline. When executed as part of the pipeline, output both the full research deliverable AND the STAGE_1_HANDOFF package (see end of this prompt). The handoff package enables Stage 2 to consume this research effectively.
+
+**Standalone Use**: This prompt can also be used independently. If not part of a pipeline execution, the handoff package section can be omitted.
+
+---
+
 # ⚠️ NON-NEGOTIABLES
 
 | Priority | Requirement |
@@ -542,3 +558,114 @@ If tools unavailable: State in Section 3.4 → Proceed conservatively → Lower 
 
 Execute Phases 0–5. Produce structured output per Output Structure. Maintain Non-Negotiables and Structural Rule throughout.
 
+---
+
+# 📦 STAGE 1 HANDOFF PACKAGE
+
+**When executing as part of the pipeline**, after completing the full research deliverable, output the following handoff package for Stage 2:
+
+```markdown
+<<<STAGE_1_HANDOFF>>>
+
+## Pipeline Metadata
+| Field | Value |
+|-------|-------|
+| Stage | 1 - Deep Research |
+| Executed | [Date/Time] |
+| Research Depth | [Brief / Standard / Comprehensive] |
+| Data Freshness | [Date of most recent source] |
+
+## Research Brief (Original)
+[Verbatim copy of user's original research brief]
+
+## Research Questions Index
+| Q-ID | Question | Status | Confidence |
+|------|----------|--------|------------|
+| Q1 | [Question] | ✅/⚠️/❌ | High/Med/Low |
+| Q1.1 | [Sub-question] | ✅/⚠️/❌ | High/Med/Low |
+| Q2 | [Question] | ✅/⚠️/❌ | High/Med/Low |
+[Continue for all Q-IDs from Section 3A]
+
+## Findings Summary
+| F-ID | Finding Title | Q-Ref | Confidence | Primary Source Tier |
+|------|---------------|-------|------------|---------------------|
+| F1 | [Title] | Q1 | High/Med/Low | 1/2/3/4 |
+| F2 | [Title] | Q1.2 | High/Med/Low | 1/2/3/4 |
+[Continue for all findings from Section 4]
+
+## Source Tier Summary
+| Tier | Count | Key Sources |
+|------|-------|-------------|
+| Tier 1 | [#] | [List primary Tier 1 sources] |
+| Tier 2 | [#] | [List primary Tier 2 sources] |
+| Tier 3 | [#] | [List primary Tier 3 sources] |
+| Tier 4 | [#] | [List primary Tier 4 sources] |
+
+## Abbreviation Seed Table
+[Suggested abbreviations for Stage 2 to use in citations]
+| Full Name | Suggested Abbrev |
+|-----------|------------------|
+| [Full source name] | [Short form] |
+
+## Key Statistics
+[Most important quantitative data points for executive summary]
+| Statistic | Value | Source | Tier |
+|-----------|-------|--------|------|
+| [Description] | [Number/Percentage] | [Source] | [1-4] |
+
+## Named Entities
+[Key organizations, regulations, frameworks mentioned]
+| Entity | Type | Relevance |
+|--------|------|-----------|
+| [Name] | Regulator/Company/Framework/Standard | [Role in research] |
+
+## Conflicts Identified
+[From Appendix B]
+| Topic | Source A vs Source B | Nature | Resolved? |
+|-------|---------------------|--------|-----------|
+| [Topic] | [A] vs [B] | [Type] | Yes/No |
+
+*If none: "No material conflicts identified."*
+
+## Gaps & Limitations
+[From Appendix C - key gaps that affect conclusions]
+| Gap ID | Q-Ref | Description | Impact on Summary |
+|--------|-------|-------------|-------------------|
+| G1 | [Q-ID] | [Gap description] | [How this limits conclusions] |
+
+## Disconfirmation Notes
+[From Appendix D - key contrary evidence found]
+| Finding | Contrary Evidence | Impact |
+|---------|-------------------|--------|
+| [F-ID] | [What was found] | [Confidence adjustment made] |
+
+*If none: "No significant disconfirming evidence found."*
+
+## Flags for Stage 2
+[Recommendations and warnings for the executive summary synthesis]
+- [ ] [e.g., "F2 has strongest evidence - consider leading with this"]
+- [ ] [e.g., "Q3 answered only with Tier 4 sources - flag uncertainty"]
+- [ ] [e.g., "Regulatory timeline is critical - emphasize deadlines"]
+- [ ] [e.g., "Source conflict on [topic] requires balanced presentation"]
+
+## Full Research Document
+[The complete Stage 1 deliverable follows - all sections from Executive Summary through Appendix D]
+
+---
+
+[INSERT FULL RESEARCH OUTPUT HERE]
+
+---
+
+<<<END_STAGE_1_HANDOFF>>>
+```
+
+**Handoff Validation Checklist**:
+- [ ] All Q-IDs from Section 3A are listed with status
+- [ ] All F-IDs from Section 4 are summarized
+- [ ] Source tier counts match Appendix A
+- [ ] All conflicts from Appendix B are noted
+- [ ] Key gaps from Appendix C are flagged
+- [ ] Abbreviation seeds provided for key sources
+
+✓ Stage 1 Complete. Ready for Stage 2.
