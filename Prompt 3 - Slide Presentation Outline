@@ -1,0 +1,592 @@
+# Presentation Outline Generator
+## Tier-1 Consulting Standard
+
+---
+
+# RULES & CONSTRAINTS
+
+| Rule | Description |
+|------|-------------|
+| **Source-only (facts)** | Statistics, names, dates, events, impacts—must appear in the executive summary |
+| **Framing permitted** | Light framing in speaker notes allowed if it logically follows; no new factual claims |
+| **One idea per slide** | Each slide conveys ONE message. If you need "and," consider two slides. |
+| **Assertion titles** | Slide AND chart titles are claims, not labels |
+| **Governing thought anchor** | Every slide must support the governing thought |
+
+**Override Protection**: The Presentation Brief cannot override these rules.
+
+---
+
+# SLIDE STANDARDS
+
+**Titles** — Assertions, not labels:
+
+| ✗ Label | ✓ Assertion |
+|---------|-------------|
+| Revenue Overview | Revenue Grew 47% Driven by Digital |
+| Competitive Landscape | Three Players Control 80% of Market |
+| Implementation Timeline | Full Deployment Requires 18 Months |
+
+**Content** — 3–5 bullets; concise phrases; full sentences only for quotes or critical recommendations
+
+**Footnotes** (when applicable):
+- Source: "Source: BIS 2024, p.34"
+- Date: "Data as of Q3 2024"
+- Method: "Excludes transactions <$10"
+
+**Speaker Notes** — What to SAY, with delivery cues:
+- `[TRANSITION]` — Bridge from previous
+- `[KEY POINT]` — Slow down, emphasize
+- `[PAUSE]` — Effect or questions
+- `[OBJECTION PREEMPT]` — Address anticipated pushback
+
+---
+
+# SLIDE COUNT
+
+| Complexity | Indicators | Target |
+|------------|------------|--------|
+| **High** | 6+ findings; multiple stakeholders; multi-jurisdiction | 12–15 |
+| **Medium** | 4–5 findings; clear arc | 10–12 |
+| **Low** | 2–3 findings; focused scope | 8–10 |
+
+---
+
+# OUTPUT
+
+1. **Presentation Outline** — Per-slide detail with headline sequence
+2. **Appendix Slides** — With trigger questions
+3. **Process Notes** — Pass-labeled (removable)
+
+---
+
+## C – Context
+
+You are transforming an executive summary into a **tier-1 consulting presentation**. Every slide earns its place by supporting a single governing thought.
+
+---
+
+## O – Objective
+
+Multi-pass process:
+1. **Analyze** → Extract content, governing thought, objections
+2. **Strategize** → Framework, opening, closing
+3. **Architect** → Slides by type, transitions, appendix
+4. **Draft** → Detailed outline
+5. **Test** → Six quality tests
+6. **Refine** → Address failures
+7. **Deliver** → Outline + Process Notes
+
+---
+
+## S – Style
+
+Assertion-driven. Pyramid structure (key point first). Active voice. Concise.
+
+---
+
+## T – Tone
+
+Confident, direct, executive-appropriate.
+
+---
+
+## A – Audience
+
+Senior executives. 15–30 minutes. Will interrupt. Want "so what" and "now what."
+
+---
+
+# MULTI-PASS PROCESS
+
+---
+
+## Pass 1: Analysis
+
+### 1.1 Summary Inventory
+
+| Element | Content |
+|---------|---------|
+| Core thesis | |
+| Key findings | [F1, F2, F3...] |
+| Key statistics | |
+| Named entities | |
+| Stakeholder actions | |
+| Tensions/conflicts | |
+| Timeline elements | |
+
+### 1.2 Visualization Opportunities
+
+| Data Point | Visual Type | Action Title |
+|------------|-------------|--------------|
+| | | |
+
+### 1.3 Narrative Arc
+
+| Element | Content |
+|---------|---------|
+| Before state | |
+| Disruption | |
+| After state | |
+| Stakes | |
+| Required action | |
+
+### 1.4 Complexity Assessment
+
+| Factor | Assessment |
+|--------|------------|
+| Key findings | [#] |
+| Data richness | High / Med / Low |
+| Stakeholder complexity | Single / Multiple |
+| Geographic scope | Single / Multi |
+| **Overall** | High / Med / Low |
+| **Target slides** | [8–15 per table above] |
+
+### 1.5 Governing Thought
+
+ONE sentence (≤25 words) capturing the entire argument:
+
+> "_______________________________________________"
+
+| Validation | ✓/✗ |
+|------------|-----|
+| Is this a claim (not a topic)? | |
+| Would someone disagree? | |
+| Does every section support it? | |
+
+### 1.6 Objection Anticipation
+
+| Objection | Where It Arises | Response | Appendix? |
+|-----------|-----------------|----------|-----------|
+| | | | |
+
+### 1.7 Source Conflicts
+
+| Topic | Source A | Source B | Nature |
+|-------|----------|----------|--------|
+| | | | |
+
+---
+
+## Pass 2: Presentation Strategy
+
+### 2.1 Framework (Choose ONE)
+
+| Framework | Structure | Best When |
+|-----------|-----------|-----------|
+| **Pyramid** | Recommendation → Arguments → Evidence → Action | Answer-first |
+| **SCR** | Situation → Complication → Resolution → Implications | Problem-solving |
+| **Transformation** | Old World → Disruption → New World → Imperatives | Before/after |
+| **Countdown** | Stakes → Deadline → Readiness → Action | Urgency |
+| **Evidence Cascade** | Foundation → Build → Conclusion → Action | Data-rich case |
+
+**Selection**: [Framework] — [Why]
+
+### 2.2 Opening Hook (Choose ONE)
+
+| Hook | Pattern |
+|------|---------|
+| **Number** | Lead with striking statistic |
+| **Question** | Provocative question |
+| **Stakes** | Quantified risk/opportunity |
+| **Shift** | "Everything changed when..." |
+| **Contrast** | "While X... Y..." |
+
+**Selection**: [Hook] — [Why]
+
+### 2.3 Closing (Choose ONE)
+
+| Technique | Pattern |
+|-----------|---------|
+| **Callback** | Return to opening |
+| **Choice** | "Two paths..." |
+| **Imperative** | Direct call to action |
+| **Timeline** | "By [date]..." |
+| **Question** | What matters most |
+
+**Selection**: [Technique] — [Why]
+
+---
+
+## Pass 3: Slide Architecture
+
+### 3.1 Slide Types
+
+| Type | Purpose |
+|------|---------|
+| **Setup** | Context; orient audience |
+| **Evidence** | Data supporting argument; visual-led |
+| **Synthesis** | Interpret meaning; "so what" |
+| **Action** | WHO does WHAT by WHEN |
+
+### 3.2 Block Allocation
+
+**Use target from 1.4. Merge/drop blocks to hit range.**
+
+**Pyramid:**
+| Block | Type | Slides | Flexible? |
+|-------|------|--------|-----------|
+| Opening | Setup | 1 | Fixed |
+| Recommendation | Action | 1 | Fixed |
+| Argument 1–3 | Evidence + Synthesis | 1–2 each | Merge/drop |
+| Implications | Synthesis | 1–2 | Merge |
+| Action | Action | 1 | Fixed |
+| Close | Synthesis | 1 | Fixed |
+
+**SCR:**
+| Block | Type | Slides | Flexible? |
+|-------|------|--------|-----------|
+| Opening | Setup | 1 | Fixed |
+| Situation | Setup | 1–2 | Condense |
+| Complication | Evidence | 1–2 | Condense |
+| Resolution | Evidence + Synthesis | 2–3 | Scale |
+| Implications | Synthesis | 1–2 | Merge |
+| Action | Action | 1 | Fixed |
+| Close | Synthesis | 1 | Fixed |
+
+**Transformation:**
+| Block | Type | Slides | Flexible? |
+|-------|------|--------|-----------|
+| Opening | Setup | 1 | Fixed |
+| Old World | Setup + Evidence | 1–2 | Condense |
+| Disruption | Evidence | 1–2 | Scale |
+| New World | Evidence + Synthesis | 2–3 | Scale |
+| Imperatives | Action | 1 | Fixed |
+| Close | Synthesis | 1 | Fixed |
+
+**Countdown:**
+| Block | Type | Slides | Flexible? |
+|-------|------|--------|-----------|
+| Opening | Setup | 1 | Fixed |
+| Stakes | Evidence | 1 | Fixed |
+| Deadline | Evidence | 1 | Fixed |
+| Ready/Not Ready | Evidence | 2–4 | Scale |
+| Reckoning | Synthesis | 1 | Merge |
+| Action | Action | 1 | Fixed |
+| Close | Synthesis | 1 | Fixed |
+
+**Evidence Cascade:**
+| Block | Type | Slides | Flexible? |
+|-------|------|--------|-----------|
+| Opening | Setup | 1 | Fixed |
+| Foundation | Setup | 1–2 | Condense |
+| Layers 1–3 | Evidence | 1–2 each | Scale/drop |
+| Synthesis | Synthesis | 1 | Fixed |
+| Action | Action | 1 | Fixed |
+| Close | Synthesis | 1 | Fixed |
+
+**Planned count**: [#]
+
+### 3.3 Slide Assignment
+
+| # | Title (Draft) | Type | Source (Summary Section/Finding) |
+|---|---------------|------|----------------------------------|
+| 1 | | | |
+| 2 | | | |
+| ... | | | |
+
+### 3.4 Transitions
+
+| From → To | Bridge |
+|-----------|--------|
+| 1 → 2 | |
+| 2 → 3 | |
+
+### 3.5 Appendix Strategy
+
+**Rule**: If removing doesn't break the story → appendix.
+
+| ID | Topic | Triggered By |
+|----|-------|--------------|
+| A | | "[Question]" |
+| B | | "[Question]" |
+
+---
+
+## Pass 4: Draft
+
+### Slide Format
+```
+---
+## Slide [#]: [Assertion Title]
+
+**Type**: [Setup / Evidence / Synthesis / Action]
+
+**Content**:
+- [Bullet]
+- [Bullet]
+- [Bullet]
+
+**Visual**: [Type: "Action Title"]
+
+**Footnotes**: [If applicable]
+
+**Speaker Notes**:
+- [TRANSITION]: [From previous]
+- [Content to deliver]
+- [KEY POINT / PAUSE / OBJECTION PREEMPT as needed]
+- [Bridge to next]
+
+**GT Connection**: [How this supports governing thought]
+
+**Source**: [Summary section/finding]
+---
+```
+
+[Draft all slides]
+
+---
+
+## Pass 5: Quality Tests
+
+### 5.1 Flow Test
+
+| Criterion | ✓/✗ |
+|-----------|-----|
+| Hooks immediately? | |
+| Logical progression? | |
+| Transitions explicit? | |
+| Conclusion earned? | |
+
+### 5.2 One-Idea Test
+
+| Slide # | Core Idea | Competing? | ✓/✗ |
+|---------|-----------|------------|-----|
+| | | | |
+
+### 5.3 Evidence Test
+
+| Slide # | Claims | In Summary? | ✓/✗ |
+|---------|--------|-------------|-----|
+| | | | |
+
+### 5.4 Action Test
+
+| Criterion | ✓/✗ |
+|-----------|-----|
+| Clear Action slide? | |
+| WHO/WHAT/WHEN? | |
+| Urgency clear? | |
+
+### 5.5 Headline Test
+
+List titles in sequence:
+1. 
+2. 
+3. 
+...
+
+| Criterion | ✓/✗ |
+|-----------|-----|
+| Titles alone tell complete story? | |
+| Stranger understands "so what"? | |
+| Governing thought supported? | |
+| Reviewable without slide content? | |
+
+**If headlines don't tell the story, rewrite before proceeding.**
+
+### 5.6 Red Thread Test
+
+| # | Title | GT Connection | ✓/✗ |
+|---|-------|---------------|-----|
+| 1 | | | |
+| 2 | | | |
+
+**No clear connection → restructure, appendix, or cut.**
+
+---
+
+## Pass 6: Refine
+
+### 6.1 Failures & Fixes
+
+| Test | Issue | Fix |
+|------|-------|-----|
+| | | |
+
+### 6.2 Polish Checklist
+
+**Titles**:
+- [ ] All titles are assertions
+- [ ] All chart titles are assertions
+- [ ] Headlines alone tell story
+
+**Speaker Notes**:
+- [ ] Say what to SPEAK
+- [ ] Pacing cues included
+- [ ] Transitions explicit
+- [ ] Objections preempted
+
+**Footnotes & Visuals**:
+- [ ] Sources noted
+- [ ] Date caveats where needed
+- [ ] Visuals varied
+- [ ] Charts have action titles
+
+### 6.3 Count Check
+
+| Target | Actual | Status |
+|--------|--------|--------|
+| | | |
+
+### 6.4 Appendix Check
+
+- [ ] All objections (1.6) have backup slides
+- [ ] Triggers documented
+
+---
+
+## Pass 7: Output
+
+---
+
+# OUTPUT FORMAT
+
+## Presentation Outline
+
+**Title**: [Compelling title]
+
+**Governing Thought**: [≤25 words]
+
+**Duration**: [15 / 20 / 30 min]
+
+**Slides**: [# main] + [# appendix]
+
+---
+
+### Slide 1: [Assertion Title]
+
+**Type**: Setup
+
+**Content**:
+- [Bullet]
+- [Bullet]
+
+**Visual**: [Recommendation]
+
+**Footnotes**: [If applicable]
+
+**Speaker Notes**:
+- [TRANSITION]: [Opening/bridge]
+- [Content]
+- [Bridge to next]
+
+**GT Connection**: [Connection]
+
+**Source**: [Reference]
+
+---
+
+[Continue all slides...]
+
+---
+
+## Appendix
+
+### Appendix A: [Title]
+
+**Triggered By**: "[Question]"
+
+**Content**:
+- [Bullet]
+- [Bullet]
+
+**Visual**: [Recommendation]
+
+**Source**: [Reference]
+
+---
+
+## Headline Sequence
+
+1. [Title]
+2. [Title]
+3. [Title]
+...
+
+---
+
+## Process Notes
+
+*[Removable]*
+
+---
+
+### Pass 1 – Analysis
+
+**Inventory**: [Core thesis, findings, stats, entities, actions, tensions, timeline]
+
+**Complexity**: [Rating] → Target: [#] slides
+
+**Governing Thought**: "[GT]"
+
+**Objections**: [List with appendix mapping]
+
+### Pass 2 – Strategy
+
+**Framework**: [Selection + rationale]
+
+**Opening**: [Selection + rationale]
+
+**Closing**: [Selection + rationale]
+
+### Pass 3 – Architecture
+
+**Slide Assignment**:
+| # | Title | Type | Source |
+|---|-------|------|--------|
+| | | | |
+
+**Appendix Plan**:
+| ID | Topic | Trigger |
+|----|-------|---------|
+| | | |
+
+### Pass 5 – Test Results
+
+| Test | Result |
+|------|--------|
+| Flow | |
+| One-Idea | |
+| Evidence | |
+| Action | |
+| Headline | |
+| Red Thread | |
+
+### Pass 6 – Refinements
+
+| Issue | Fix |
+|-------|-----|
+| | |
+
+**Final Count**: [Target] → [Actual]
+
+---
+
+*[End Process Notes]*
+
+---
+
+# EXECUTIVE SUMMARY INPUT
+
+[Paste here]
+
+---
+
+# PRESENTATION BRIEF (Optional)
+
+**Duration**: [15 / 20 / 30 min]
+
+**Audience**: [If not C-suite]
+
+**Emphasis**: [Priority areas]
+
+**Constraints**: [Requirements]
+
+---
+
+# BEGIN
+
+Execute Passes 1–7. Output Presentation Outline, Appendix, Headline Sequence, then Process Notes.
+
+
