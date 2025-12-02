@@ -109,7 +109,7 @@
         "content_blocks": [
           {
             "block_id": "string",
-            "type": "string (text|bullets|quote|statistic|table)",
+            "type": "string (paragraph|bullet_list|numbered_list|callout_box|data_point|table)",
             "content": {
               "text": "string or array",
               "density_versions": {
@@ -232,10 +232,12 @@ Extract from STAGE_3_HANDOFF:
 ### 1.2 Content Census
 | Content Type | Count | Examples |
 |--------------|-------|----------|
-| Bullet lists | | |
-| Statistics | | |
-| Quotes | | |
-| Tables | | |
+| `bullet_list` | | |
+| `numbered_list` | | |
+| `paragraph` | | |
+| `data_point` | | |
+| `callout_box` | | |
+| `table` | | |
 | Charts needed | | |
 
 ### 1.3 Data Points for Visualization
@@ -286,6 +288,13 @@ Therefore: Selecting [palette type] because [reasoning]
 | Bullet Points | | | | |
 | Captions/Sources | | | | |
 
+**Font Fallback Stack** (required for P5 React artifact):
+```
+Primary fonts may not render in browser preview. Always specify fallbacks:
+- Title: "[Custom Font]", "Segoe UI", "Arial", sans-serif
+- Body: "[Custom Font]", "Calibri", "Helvetica Neue", sans-serif
+```
+
 ### 2.3 Layout Grid
 
 | Setting | Value | Rationale |
@@ -297,20 +306,21 @@ Therefore: Selecting [palette type] because [reasoning]
 
 ### 2.4 Layout Templates Library
 
-Define reusable templates:
+Define reusable templates (use underscore naming for P5 compatibility):
 
 | Template ID | Name | Structure | Best For |
 |-------------|------|-----------|----------|
-| `title-centered` | Title Slide | Centered title + subtitle | Opening |
-| `content-full` | Full Content | Title + full-width content | Text-heavy |
-| `content-left-visual-right` | Split L/R | 60/40 split | Data + chart |
-| `visual-left-content-right` | Split R/L | 40/60 split | Image + text |
-| `full-chart` | Chart Focus | Title + full chart | Data visualization |
-| `comparison-2col` | Two Column | 50/50 split | Compare/contrast |
-| `comparison-3col` | Three Column | 33/33/33 split | Multiple items |
-| `quote` | Quote Slide | Large centered quote | Key quote |
-| `section-break` | Section | Large title only | Transitions |
-| `action` | Action Slide | Title + action items | Recommendations |
+| `title_centered` | Title Slide | Centered title + subtitle | Opening |
+| `title_content` | Full Content | Title + full-width content | Text-heavy |
+| `content_visual_split` | Split L/R | 60/40 split | Data + chart |
+| `visual_content_split` | Split R/L | 40/60 split | Image + text |
+| `chart_focus` | Chart Focus | Title + full chart | Data visualization |
+| `two_column` | Two Column | 50/50 split | Compare/contrast |
+| `three_column` | Three Column | 33/33/33 split | Multiple items |
+| `callout_quote` | Quote Slide | Large centered quote | Key quote |
+| `section_divider` | Section | Large title only | Transitions |
+| `action_items` | Action Slide | Title + action items | Recommendations |
+| `appendix` | Appendix Slide | Smaller title, dense content | Q&A backup |
 
 ---
 
@@ -451,6 +461,24 @@ For each chart, define:
 |---------|---------|------|-------------|-------------------|
 | | | Icon | | [Icon library reference] |
 | | | Image | | [Stock photo keywords] |
+
+**Image Handling for P5 React Artifact**:
+```
+Since P5 runs client-side without file system access:
+1. Icons: Use Unicode symbols (✓ ✗ → ▶) or inline SVG paths
+2. Images: Provide placeholder description + dimensions
+3. Charts: Fully specified in JSON (P5 generates SVG preview + PPTX chart)
+4. For PPTX export: Images must be base64-encoded or public URLs
+
+Image JSON structure:
+{
+  "type": "image",
+  "placeholder_text": "[Description for preview]",
+  "dimensions": {"width": 400, "height": 300},
+  "source": "base64_data_uri | public_url | placeholder",
+  "alt_text": "Accessibility description"
+}
+```
 
 ---
 
@@ -637,10 +665,10 @@ Execute Passes 1–7. Output complete JSON specification, Design Decisions Log, 
 ## Layout Template Usage
 | Template | Used In Slides |
 |----------|---------------|
-| title-centered | 1 |
-| content-left-visual-right | 3, 5, 7 |
-| full-chart | 4, 6 |
-| action | 10 |
+| title_centered | 1 |
+| content_visual_split | 3, 5, 7 |
+| chart_focus | 4, 6 |
+| action_items | 10 |
 
 ## Chart Specifications Summary
 | Slide # | Chart Type | Data Points | Key Insight |

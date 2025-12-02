@@ -178,9 +178,60 @@ Extract from STAGE_4_HANDOFF:
 | State Variable | Type | Purpose |
 |----------------|------|---------|
 | `currentSlide` | number | Active slide index |
-| `slides` | array | Parsed slide data |
+| `slides` | array | Parsed slide data (main + appendix) |
+| `appendixSlides` | array | Appendix slides (separate navigation) |
 | `isGenerating` | boolean | Download in progress |
+| `error` | string/null | Error message for display |
 | `designSystem` | object | Colors, fonts, layouts |
+| `showAppendix` | boolean | Toggle appendix view |
+
+### 1.4 Keyboard Navigation (Required)
+
+```javascript
+// Add keyboard event listener in useEffect
+useEffect(() => {
+  const handleKeyDown = (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') {
+      setCurrentSlide(prev => Math.min(prev + 1, slides.length - 1));
+    } else if (e.key === 'ArrowLeft') {
+      setCurrentSlide(prev => Math.max(prev - 1, 0));
+    } else if (e.key === 'Home') {
+      setCurrentSlide(0);
+    } else if (e.key === 'End') {
+      setCurrentSlide(slides.length - 1);
+    } else if (e.key === 'a' || e.key === 'A') {
+      setShowAppendix(prev => !prev); // Toggle appendix
+    }
+  };
+
+  window.addEventListener('keydown', handleKeyDown);
+  return () => window.removeEventListener('keydown', handleKeyDown);
+}, [slides.length]);
+```
+
+### 1.5 Appendix Slide Handling
+
+```javascript
+// Separate main slides from appendix slides
+const mainSlides = slides.filter(s => !s.appendix_id);
+const appendixSlides = slides.filter(s => s.appendix_id);
+
+// Appendix renders in separate section with trigger questions
+const renderAppendixSection = () => (
+  <div style={styles.appendixSection}>
+    <h3>Appendix Slides</h3>
+    {appendixSlides.map((slide, idx) => (
+      <div key={slide.appendix_id} style={styles.appendixCard}>
+        <strong>{slide.appendix_id}: {slide.title}</strong>
+        <p>Trigger: "{slide.trigger_question}"</p>
+        <button onClick={() => jumpToSlide(mainSlides.length + idx)}>
+          View Slide
+        </button>
+      </div>
+    ))}
+  </div>
+);
+```
 
 ---
 
@@ -188,22 +239,35 @@ Extract from STAGE_4_HANDOFF:
 
 ### 2.1 Color Mapping
 
-| JSON Field | CSS Variable | Hex Value |
-|------------|--------------|-----------|
-| primary_color | --color-primary | |
-| secondary_color | --color-secondary | |
-| accent_color | --color-accent | |
-| text_dark | --color-text | |
-| background_light | --color-bg | |
+**Map P4's `design_system.color_palette` to CSS:**
+
+| P4 JSON Field | CSS Variable | Usage |
+|---------------|--------------|-------|
+| `color_palette.primary` | --color-primary | Headers, buttons |
+| `color_palette.secondary` | --color-secondary | Accents, hover |
+| `color_palette.accent` | --color-accent | Highlights, callouts |
+| `color_palette.background` | --color-bg | Slide background |
+| `color_palette.text_primary` | --color-text | Body text |
+| `color_palette.text_secondary` | --color-text-muted | Captions, footnotes |
+| `color_palette.chart_colors` | Array | Chart series colors |
 
 ### 2.2 Typography Mapping
 
-| JSON Field | CSS Property | Value |
-|------------|--------------|-------|
-| title_font | fontFamily (titles) | |
-| body_font | fontFamily (body) | |
-| title_size | fontSize (h1) | |
-| body_size | fontSize (p) | |
+**Map P4's `design_system.typography` to CSS:**
+
+| P4 JSON Field | CSS Property | Notes |
+|---------------|--------------|-------|
+| `typography.title_font` | fontFamily (h1, h2) | Use with fallback stack |
+| `typography.title_size` | fontSize (h1) | Convert pt → px (*1.33) |
+| `typography.body_font` | fontFamily (p, li) | Use with fallback stack |
+| `typography.body_size` | fontSize (p) | Convert pt → px (*1.33) |
+| `typography.font_fallback` | Append to fontFamily | Web-safe fallbacks |
+
+**Font Fallback Pattern:**
+```javascript
+const titleFont = `"${typography.title_font}", ${typography.font_fallback?.join(', ') || '"Segoe UI", Arial, sans-serif'}`;
+const bodyFont = `"${typography.body_font}", ${typography.font_fallback?.join(', ') || 'Calibri, "Helvetica Neue", sans-serif'}`;
+```
 
 ### 2.3 Layout Constants
 
@@ -246,15 +310,21 @@ const LAYOUT = {
 
 ### 3.2 Template Rendering Functions
 
-| Template | Render Logic |
-|----------|--------------|
-| `title_only` | Centered title, subtitle below |
-| `title_content` | Title top, bullets below |
+**Template names must match P4 output exactly:**
+
+| Template (from P4) | Render Logic |
+|-------------------|--------------|
+| `title_centered` | Centered title, subtitle below, primary bg |
+| `title_content` | Title top, bullets/content below |
+| `content_visual_split` | 60/40 split, text left, visual right |
+| `visual_content_split` | 40/60 split, visual left, text right |
+| `chart_focus` | Title, large chart area (80% height) |
 | `two_column` | 50/50 split, content in each |
-| `chart_focus` | Title, large chart area, minimal text |
-| `comparison` | Title, side-by-side boxes |
+| `three_column` | 33/33/33 split, three content areas |
+| `callout_quote` | Large centered quote with attribution |
 | `section_divider` | Centered section title, accent bg |
-| `appendix` | Smaller title, dense content |
+| `action_items` | Title + numbered action items |
+| `appendix` | Smaller title, dense content, gray bg |
 
 ### 3.3 Content Block Renderer
 
@@ -348,6 +418,54 @@ const renderDonutChart = (data, colors) => { /* SVG arcs with center cut */ };
 **Rationale**: Claude.ai artifacts support dynamic imports from CDNs. Include error handling if import fails.
 ```
 
+**REQUIRED: PptxGenJS CDN URL**:
+```javascript
+// Use this exact CDN URL for PptxGenJS import
+const PPTXGENJS_CDN = 'https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js';
+
+// Dynamic import pattern
+const loadPptxGenJS = async () => {
+  try {
+    // Method 1: Dynamic script injection (more reliable in artifacts)
+    return new Promise((resolve, reject) => {
+      if (window.PptxGenJS) {
+        resolve(window.PptxGenJS);
+        return;
+      }
+      const script = document.createElement('script');
+      script.src = PPTXGENJS_CDN;
+      script.onload = () => resolve(window.PptxGenJS);
+      script.onerror = () => reject(new Error('Failed to load PptxGenJS'));
+      document.head.appendChild(script);
+    });
+  } catch (err) {
+    throw new Error(`PptxGenJS load failed: ${err.message}`);
+  }
+};
+```
+
+**REQUIRED: Error Handling Pattern**:
+```javascript
+const handleDownload = async () => {
+  setIsGenerating(true);
+  setError(null);
+
+  try {
+    const PptxGenJS = await loadPptxGenJS();
+    const pptx = new PptxGenJS();
+
+    // ... generate slides ...
+
+    await pptx.writeFile({ fileName: `${presentationTitle}.pptx` });
+  } catch (err) {
+    setError(`Export failed: ${err.message}. Try refreshing the page.`);
+    console.error('PPTX generation error:', err);
+  } finally {
+    setIsGenerating(false);
+  }
+};
+```
+
 ### 5.2 Export Function Structure
 
 ```javascript
@@ -397,7 +515,7 @@ const generatePptx = async (slides, designSystem) => {
 ```jsx
 // === SLIDE PRESENTATION ARTIFACT ===
 // Generated from Stage 4 JSON Specification
-// Features: Live Preview + PPTX Download
+// Features: Live Preview + PPTX Download + Keyboard Nav + Appendix Support
 
 import React, { useState, useEffect } from 'react';
 
@@ -405,32 +523,92 @@ export default function SlideDeck() {
   // --- STATE ---
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [error, setError] = useState(null);
+  const [showAppendix, setShowAppendix] = useState(false);
 
-  // --- DESIGN SYSTEM (from JSON) ---
-  const designSystem = { /* extracted from JSON */ };
+  // --- DESIGN SYSTEM (from P4 JSON) ---
+  const designSystem = {
+    colors: { /* from color_palette */ },
+    fonts: { /* from typography with fallbacks */ }
+  };
 
-  // --- SLIDES DATA (from JSON) ---
-  const slides = [ /* parsed slide objects */ ];
+  // --- SLIDES DATA (from P4 JSON) ---
+  const slides = [ /* main slide objects */ ];
+  const appendixSlides = [ /* appendix slide objects */ ];
+  const allSlides = [...slides, ...appendixSlides];
 
-  // --- STYLES ---
-  const styles = { /* inline style objects */ };
+  // --- KEYBOARD NAVIGATION ---
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowRight') setCurrentSlide(p => Math.min(p + 1, allSlides.length - 1));
+      if (e.key === 'ArrowLeft') setCurrentSlide(p => Math.max(p - 1, 0));
+      if (e.key === 'a') setShowAppendix(p => !p);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [allSlides.length]);
 
-  // --- CHART RENDERERS ---
-  const renderChart = (chartData) => { /* SVG generation */ };
+  // --- PPTXGENJS LOADER ---
+  const loadPptxGenJS = async () => { /* CDN script injection */ };
 
-  // --- PPTX EXPORT ---
-  const handleDownload = async () => { /* PptxGenJS logic */ };
+  // --- CHART RENDERERS (SVG for preview) ---
+  const renderChart = (chartSpec) => { /* SVG generation */ };
 
-  // --- SLIDE RENDERER ---
-  const renderSlide = (slideData) => { /* template switch */ };
+  // --- PPTX EXPORT WITH ERROR HANDLING ---
+  const handleDownload = async () => {
+    setIsGenerating(true);
+    setError(null);
+    try {
+      const PptxGenJS = await loadPptxGenJS();
+      // ... generate slides ...
+    } catch (err) {
+      setError(`Export failed: ${err.message}`);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  // --- SLIDE RENDERER (by template type) ---
+  const renderSlide = (slideData) => { /* switch on layout_template */ };
 
   // --- MAIN RENDER ---
   return (
     <div style={styles.container}>
-      {/* Header with title and download button */}
+      {/* Error banner if error */}
+      {error && <div style={styles.error}>{error}</div>}
+
+      {/* Header: title + download button */}
+      <header style={styles.header}>
+        <h1>{designSystem.title}</h1>
+        <button onClick={handleDownload} disabled={isGenerating}>
+          {isGenerating ? 'Generating...' : 'Download PPTX'}
+        </button>
+      </header>
+
       {/* Slide preview area */}
-      {/* Navigation controls */}
-      {/* Thumbnail strip (optional) */}
+      <main style={styles.slideContainer}>
+        {renderSlide(allSlides[currentSlide])}
+      </main>
+
+      {/* Navigation: prev/next + slide counter */}
+      <nav style={styles.navigation}>
+        <button onClick={() => setCurrentSlide(p => Math.max(p - 1, 0))}>←</button>
+        <span>{currentSlide + 1} / {allSlides.length}</span>
+        <button onClick={() => setCurrentSlide(p => Math.min(p + 1, allSlides.length - 1))}>→</button>
+        {appendixSlides.length > 0 && (
+          <button onClick={() => setShowAppendix(p => !p)}>
+            {showAppendix ? 'Hide' : 'Show'} Appendix
+          </button>
+        )}
+      </nav>
+
+      {/* Appendix section (if toggled) */}
+      {showAppendix && renderAppendixSection()}
+
+      {/* Keyboard hints */}
+      <footer style={styles.hints}>
+        ← → Navigate | A: Toggle Appendix | Home/End: First/Last
+      </footer>
     </div>
   );
 }
@@ -560,40 +738,91 @@ Use the STAGE_4_HANDOFF package from Stage 4, specifically:
 
 ## Standalone Mode
 
-Provide a valid JSON slide specification following this schema:
+Provide a valid JSON slide specification following P4's output schema:
 
 ```json
 {
   "presentation": {
     "metadata": {
       "title": "string",
-      "subtitle": "string",
-      "author": "string",
-      "date": "string"
+      "governing_thought": "string (≤25 words)",
+      "duration_minutes": "number",
+      "slide_count": "number",
+      "appendix_count": "number",
+      "framework": "string",
+      "schema_version": "1.0"
     },
     "design_system": {
       "color_palette": {
         "primary": "#hex",
         "secondary": "#hex",
         "accent": "#hex",
-        "text_dark": "#hex",
-        "text_light": "#hex",
-        "background": "#hex"
+        "background": "#hex",
+        "text_primary": "#hex",
+        "text_secondary": "#hex",
+        "chart_colors": ["#hex array"]
       },
       "typography": {
         "title_font": "string",
-        "body_font": "string"
+        "title_size": "number (pt)",
+        "body_font": "string",
+        "body_size": "number (pt)",
+        "font_fallback": ["web-safe fallbacks"]
       }
     },
     "slides": [
       {
         "slide_number": 1,
-        "type": "string",
-        "layout_template": "string",
-        "title": { "text": "string" },
-        "content_blocks": [],
-        "visual_elements": [],
-        "speaker_notes": { "text": "string" }
+        "slide_id": "S1",
+        "type": "string (title|section|content|chart|comparison|action|closing)",
+        "layout_template": "string (title_centered|title_content|content_visual_split|chart_focus|two_column|section_divider|action_items|appendix)",
+        "title": {
+          "text": "string",
+          "density_versions": {
+            "verbose": "string",
+            "standard": "string",
+            "dense": "string"
+          },
+          "selected_density": "string"
+        },
+        "content_blocks": [
+          {
+            "block_id": "string",
+            "type": "string (paragraph|bullet_list|numbered_list|callout_box|data_point|table)",
+            "content": {
+              "text": "string or array",
+              "density_versions": {}
+            }
+          }
+        ],
+        "visual_elements": [
+          {
+            "element_id": "string",
+            "type": "string (chart|image|icon)",
+            "chart_spec": {
+              "chart_type": "bar_vertical|bar_horizontal|line|pie|donut",
+              "data": {},
+              "colors": []
+            }
+          }
+        ],
+        "speaker_notes": {
+          "full_notes": "string",
+          "key_points": ["array"],
+          "confidence_flags": ["array"]
+        },
+        "traceability": {
+          "f_ids": ["array"],
+          "q_refs": ["array"]
+        }
+      }
+    ],
+    "appendix_slides": [
+      {
+        "appendix_id": "A1",
+        "trigger_question": "string",
+        "title": "string",
+        "content": {}
       }
     ]
   }
